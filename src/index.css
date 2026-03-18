@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+/* CSS Custom Properties - Dark Mode Only */
+:root {
+  --color-deep-green: #041a02;
+  --color-muted-green: #627a5c;
+  --color-dark-gray: #404441;
+  --color-darker-gray: #2a2b2f;
+  --color-off-white: #fcfcfc;
+
+  /* Dark Mode Colors (Default and Only) */
+  --bg-primary: var(--color-darker-gray);
+  --bg-secondary: var(--color-dark-gray);
+  --text-primary: var(--color-off-white);
+  --text-secondary: rgba(252, 252, 252, 0.8);
+  --border-color: rgba(252, 252, 252, 0.1);
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Section Styles */
+.section-content {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.section-zebra-dark {
+  background-color: var(--bg-primary);
+}
+
+.section-zebra-light {
+  background-color: var(--bg-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .section-content {
+    padding: 60px 0;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-deep-green: #1a2e1a;
+  --color-muted-green: #627a5c;
+  --color-darker-gray: #1a1a1a;
+  --color-dark-gray: #242424;
+  --color-off-white: #fcfcfc;
+  --text-primary: #fcfcfc;
+  --text-secondary: #a0a0a0;
+  --border-color: rgba(252, 252, 252, 0.1);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --section-zebra-dark: #1e1e1e;
+  --section-zebra-light: #242424;
+}
+
+:root[data-theme='light'] {
+  --color-deep-green: #2d5a2d;
+  --color-muted-green: #4a7c4a;
+  --color-darker-gray: #f0f0f0;
+  --color-dark-gray: #e0e0e0;
+  --color-off-white: #1a1a1a;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --section-zebra-dark: #e8e8e8;
+  --section-zebra-light: #f5f5f5;
+}
