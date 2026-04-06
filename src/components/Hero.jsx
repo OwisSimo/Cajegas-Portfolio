@@ -288,7 +288,7 @@ const Hero = () => {
               </motion.button>
               <motion.a
                 ref={cvTilt.ref}
-                href="/2026_Cajegas_Resume.pdf"
+                href="/Cajegas Resume.pdf"
                 download="John_Laurence_Cajegas_CV.pdf"
                 className="cv-button"
                 onMouseMove={cvTilt.onMouseMove}
