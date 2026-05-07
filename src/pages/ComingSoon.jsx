@@ -42,16 +42,16 @@ const ComingSoon = () => {
         </motion.p>
 
         {/* Back button */}
-        <motion.a
-          href="/"
-          className="coming-soon-back"
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           whileHover={{ x: -4 }}
         >
-          <FaArrowLeft /> Back to Portfolio
-        </motion.a>
+          <a href="/" className="coming-soon-back">
+            <FaArrowLeft /> Back to Portfolio
+          </a>
+        </motion.div>
       </motion.div>
     </div>
   )

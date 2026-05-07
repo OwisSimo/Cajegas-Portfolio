@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import PawfectCut from '../assets/projects/PawfectCut.png'
 
@@ -105,9 +106,15 @@ const Projects = () => {
                       ))}
                     </div>
                     <div className="project-links">
-                      <a href={project.links.github} className="project-link">
-                        <i className="fab fa-github"></i> Code
-                      </a>
+                      {project.links.github.startsWith('http') ? (
+                        <a href={project.links.github} className="project-link" target="_blank" rel="noopener noreferrer">
+                          <i className="fab fa-github"></i> Code
+                        </a>
+                      ) : (
+                        <Link to={project.links.github} className="project-link">
+                          <i className="fab fa-github"></i> Code
+                        </Link>
+                      )}
                       {project.links.demo && (
                         <a href={project.links.demo} className="project-link" target="_blank" rel="noopener noreferrer">
                           <i className="fas fa-external-link-alt"></i> Visit
