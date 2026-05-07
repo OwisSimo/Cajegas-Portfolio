@@ -31,14 +31,14 @@ const projects = [
     image: null,
     description: 'A point-of-sale and inventory management system tailored for yarn and crochet material retailers, handling stock tracking, sales transactions, and product management.',
     technologies: ['C#', 'Visual Basic'],
-    links: { github: '#', demo: null }
+    links: { github: '/coming-soon', demo: null }
   },
   {
     title: 'BookQuest',
     image: null,
     description: 'A library management system designed to organize books, manage borrowing records, and streamline library operations.',
     technologies: ['HTML', 'CSS', 'MySQL', 'PHP'],
-    links: { github: '#', demo: null }
+    links: { github: '/coming-soon', demo: null }
   }
 ]
 
