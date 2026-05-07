@@ -2,9 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 
-import NetworkSecurityCert from '../assets/Network-Security-Cert.jpg'
-import DatabasesCert from '../assets/Databases-Cert.jpg'
-import HtmlCssCert from '../assets/HTML-CSS-Cert.jpg'
+import NetworkSecurityCert from '../assets/Network-Security-Cert.webp'
+import DatabasesCert from '../assets/Databases-Cert.webp'
+import HtmlCssCert from '../assets/HTML-CSS-Cert.webp'
 
 const certificates = [
   {

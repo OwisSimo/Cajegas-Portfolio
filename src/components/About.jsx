@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import profileImg from '../assets/Profile.jpg'
+import profileImg from '../assets/Profile.webp'
 
 const About = () => {
   const containerVariants = {
