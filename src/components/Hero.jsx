@@ -2,7 +2,7 @@ import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from
 import { useTypingEffect } from '../hooks/useTypingEffect'
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa'
 import { useRef, useCallback, useState, useEffect } from 'react'
-import arrowDown from '../assets/ArrowDown.png'
+import arrowDown from '../assets/ArrowDown.webp'
 
 const floatingParticles = Array.from({ length: 20 }, (_, i) => ({
   id: i,

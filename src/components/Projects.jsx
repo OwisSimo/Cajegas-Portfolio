@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaChevronUp, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import PawfectCut from '../assets/projects/PawfectCut.png'
+import PawfectCut from '../assets/projects/PawfectCut.webp'
 
 const projects = [
   {
