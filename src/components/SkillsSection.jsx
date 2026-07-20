@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
 import {
   FaHtml5,
   FaCss3Alt,
@@ -29,8 +29,8 @@ const TiltCard = ({ skill }) => {
   const IconComponent = skill.icon
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
-  const springTiltX = useSpring(tiltX, { stiffness: 150, damping: 20 })
-  const springTiltY = useSpring(tiltY, { stiffness: 150, damping: 20 })
+  const springTiltX = useSpring(tiltX, { stiffness: 300, damping: 20 })
+  const springTiltY = useSpring(tiltY, { stiffness: 300, damping: 20 })
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], ['15deg', '-15deg'])
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], ['-15deg', '15deg'])
 

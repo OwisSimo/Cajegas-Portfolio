@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { FaClock } from 'react-icons/fa'
+import { Box, Badge } from '@chakra-ui/react'
 
 const ExperienceSection = () => {
   return (
@@ -14,7 +15,7 @@ const ExperienceSection = () => {
         >
           <h2>Experience</h2>
 
-          <div className="experience-coming-soon-card">
+          <Box className="experience-coming-soon-card">
             <motion.div
               className="coming-soon-icon-wrapper"
               animate={{ rotate: [0, 8, -8, 0] }}
@@ -22,11 +23,27 @@ const ExperienceSection = () => {
             >
               <FaClock className="coming-soon-icon" />
             </motion.div>
+
+            <Badge
+              bg="rgba(98, 122, 92, 0.18)"
+              color="var(--color-muted-green)"
+              border="1px solid rgba(98, 122, 92, 0.4)"
+              px={3}
+              py={1}
+              borderRadius="full"
+              fontSize="0.75rem"
+              fontWeight="600"
+              letterSpacing="1px"
+              textTransform="uppercase"
+            >
+              In Progress
+            </Badge>
+
             <h3 className="coming-soon-title">Coming Soon</h3>
             <p className="coming-soon-text">
               Detailed work history, professional milestones, and technical achievements will be published here soon.
             </p>
-          </div>
+          </Box>
         </motion.div>
       </div>
     </section>

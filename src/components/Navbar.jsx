@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react'
 import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa'
 import { useTheme } from '../context/ThemeContext'
 
@@ -27,7 +27,15 @@ const Navbar = () => {
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId)
-    if (element) element.scrollIntoView({ behavior: 'smooth' })
+    if (element) {
+      const navHeight = 70
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = elementPosition - navHeight
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
     setIsMenuOpen(false)
   }
 

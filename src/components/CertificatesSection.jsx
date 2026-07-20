@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react'
 import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 
@@ -50,6 +50,68 @@ const itemVariants = {
   }
 }
 
+const TiltCertCard = ({ cert, onSelect }) => {
+  const tiltX = useMotionValue(0)
+  const tiltY = useMotionValue(0)
+  const springTiltX = useSpring(tiltX, { stiffness: 300, damping: 20 })
+  const springTiltY = useSpring(tiltY, { stiffness: 300, damping: 20 })
+  const rotateX = useTransform(springTiltY, [-0.5, 0.5], ['15deg', '-15deg'])
+  const rotateY = useTransform(springTiltX, [-0.5, 0.5], ['-15deg', '15deg'])
+
+  const onMouseMove = (e) => {
+    const el = e.currentTarget
+    const rect = el.getBoundingClientRect()
+    const cx = (e.clientX - rect.left) / rect.width - 0.5
+    const cy = (e.clientY - rect.top) / rect.height - 0.5
+    tiltX.set(cx)
+    tiltY.set(cy)
+  }
+
+  const onMouseLeave = () => {
+    tiltX.set(0)
+    tiltY.set(0)
+  }
+
+  return (
+    <motion.div
+      className="cert-mini-card"
+      variants={itemVariants}
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 600,
+        transformStyle: 'preserve-3d',
+      }}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onClick={() => onSelect(cert)}
+      whileHover={{
+        scale: 1.08,
+        borderColor: 'var(--color-muted-green)',
+        boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
+      }}
+      transition={{ duration: 0.2 }}
+      title="Click to view certificate"
+    >
+      {/* Full Background Banner & Certificate Image */}
+      <div className="cert-card-banner">
+        <img src={cert.image} alt={cert.title} />
+        <div className="cert-card-gradient" />
+        <span className="cert-cat-badge">{cert.issuer}</span>
+      </div>
+
+      {/* Overlaid Title & Metadata Tags */}
+      <div className="cert-card-overlay">
+        <h4>{cert.title}</h4>
+        <div className="cert-meta-tags">
+          <span className="cert-badge-sm">{cert.date}</span>
+          <span className="cert-badge-sm">{cert.issuer}</span>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 const CertificatesSection = () => {
   const [selectedCert, setSelectedCert] = useState(null)
 
@@ -66,44 +128,7 @@ const CertificatesSection = () => {
           <motion.h2 variants={itemVariants}>Certificates</motion.h2>
           <motion.div className="certificates-grid" variants={itemVariants}>
             {certificates.map((cert) => (
-              <motion.div
-                key={cert.title}
-                className="cert-card"
-                variants={itemVariants}
-                onClick={() => setSelectedCert(cert)}
-                whileHover={{
-                  y: -8,
-                  borderColor: 'var(--color-muted-green)',
-                  boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
-                  backgroundColor: 'rgba(98, 122, 92, 0.08)',
-                }}
-                transition={{ duration: 0.3 }}
-                style={{ cursor: 'pointer' }}
-              >
-                {/* Certificate Preview Image */}
-                <div className="cert-preview">
-                  <img src={cert.image} alt={cert.title} className="cert-preview-img" />
-                  <div className="cert-preview-overlay">
-                    <span>Click to view</span>
-                  </div>
-                </div>
-
-                <div className="cert-header">
-                  <div className="cert-icon">
-                    <FaCertificate />
-                  </div>
-                  <div className="cert-meta">
-                    <span className="cert-issuer">{cert.issuer}</span>
-                    <span className="cert-date">{cert.date}</span>
-                  </div>
-                </div>
-                <h3 className="cert-title">{cert.title}</h3>
-                <p className="cert-description">{cert.description}</p>
-                <div className="cert-link">
-                  <FaExternalLinkAlt />
-                  <span>View Certificate</span>
-                </div>
-              </motion.div>
+              <TiltCertCard key={cert.title} cert={cert} onSelect={setSelectedCert} />
             ))}
           </motion.div>
         </motion.div>

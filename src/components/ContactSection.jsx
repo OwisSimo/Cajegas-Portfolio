@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { FaGithub, FaFacebook, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
 const ContactSection = () => {
