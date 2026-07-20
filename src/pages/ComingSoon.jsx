@@ -1,7 +1,19 @@
 import { motion } from 'motion/react'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaGithub, FaArrowLeft } from 'react-icons/fa'
 
 const ComingSoon = () => {
+  const navigate = useNavigate()
+
+  const handleBack = (e) => {
+    e.preventDefault()
+    if (window.history.length > 2) {
+      navigate(-1)
+    } else {
+      navigate('/')
+    }
+  }
+
   return (
     <div className="coming-soon-page">
       <motion.div
@@ -48,9 +60,9 @@ const ComingSoon = () => {
           transition={{ delay: 0.5 }}
           whileHover={{ x: -4 }}
         >
-          <a href="/" className="coming-soon-back">
+          <Link to="/" onClick={handleBack} className="coming-soon-back">
             <FaArrowLeft /> Back to Portfolio
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
     </div>

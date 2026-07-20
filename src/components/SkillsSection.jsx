@@ -1,4 +1,5 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
+import { useTheme } from '../context/ThemeContext'
 import {
   FaHtml5,
   FaCss3Alt,
@@ -27,6 +28,8 @@ const skills = [
 
 const TiltCard = ({ skill }) => {
   const IconComponent = skill.icon
+  const { isDark } = useTheme()
+
   const tiltX = useMotionValue(0)
   const tiltY = useMotionValue(0)
   const springTiltX = useSpring(tiltX, { stiffness: 300, damping: 20 })
@@ -48,6 +51,11 @@ const TiltCard = ({ skill }) => {
     tiltY.set(0)
   }
 
+  // Use theme-aware colors so Framer Motion inline styles always match the active theme
+  const baseBg = isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff'
+  const hoverBg = isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9'
+  const baseShadow = '0 4px 15px var(--shadow)'
+
   return (
     <motion.div
       className="skill-card-carousel"
@@ -56,14 +64,18 @@ const TiltCard = ({ skill }) => {
         rotateY,
         transformPerspective: 600,
         transformStyle: 'preserve-3d',
+        backgroundColor: baseBg,
+        boxShadow: baseShadow,
       }}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       whileHover={{
         scale: 1.08,
+        backgroundColor: hoverBg,
         borderColor: 'var(--color-muted-green)',
-        boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
-        backgroundColor: 'rgba(98, 122, 92, 0.12)',
+        boxShadow: isDark
+          ? '0 0 20px rgba(98, 122, 92, 0.4), 0 0 30px rgba(98, 122, 92, 0.15)'
+          : '0 8px 25px rgba(0, 0, 0, 0.08), 0 0 15px rgba(98, 122, 92, 0.2)',
       }}
       transition={{ duration: 0.2 }}
     >
@@ -76,34 +88,11 @@ const TiltCard = ({ skill }) => {
 const SkillsSection = () => {
   const duplicatedSkills = [...skills, ...skills, ...skills]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
-    }
-  }
-
   return (
     <section id="skills" className="skills section-zebra-light">
       <div className="container">
-        <motion.div
-          className="section-content"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <motion.h2 variants={itemVariants}>Skills & Technologies</motion.h2>
+        <div className="section-content">
+          <h2>Skills &amp; Technologies</h2>
           <div className="skills-carousel-container">
             <div className="skills-carousel">
               {duplicatedSkills.map((skill, index) => (
@@ -111,7 +100,7 @@ const SkillsSection = () => {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )
