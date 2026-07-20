@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion'
 import { useTypingEffect } from '../hooks/useTypingEffect'
 import { FaVolumeUp, FaVolumeMute } from 'react-icons/fa'
-import { useRef, useCallback, useState, useEffect } from 'react'
-import arrowDown from '../assets/ArrowDown.webp'
+import { useRef, useState, useEffect } from 'react'
+import arrowDown from '../assets/AssetsImages/ArrowDown.webp'
 
 const floatingParticles = Array.from({ length: 20 }, (_, i) => ({
   id: i,
@@ -20,11 +20,11 @@ const useTilt = () => {
   const springTiltY = useSpring(tiltY, { stiffness: 150, damping: 20 })
   const rotateX = useTransform(springTiltY, [-0.5, 0.5], ['15deg', '-15deg'])
   const rotateY = useTransform(springTiltX, [-0.5, 0.5], ['-15deg', '15deg'])
-  const ref = useRef(null)
 
   const onMouseMove = (e) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
+    const el = e.currentTarget
+    if (!el) return
+    const rect = el.getBoundingClientRect()
     const cx = (e.clientX - rect.left) / rect.width - 0.5
     const cy = (e.clientY - rect.top) / rect.height - 0.5
     tiltX.set(cx)
@@ -36,10 +36,10 @@ const useTilt = () => {
     tiltY.set(0)
   }
 
-  return { ref, rotateX, rotateY, onMouseMove, onMouseLeave }
+  return { rotateX, rotateY, onMouseMove, onMouseLeave }
 }
 
-const Hero = () => {
+const HeroSection = () => {
   const animatedName = useTypingEffect(['John Laurence', 'Juanito', 'Owis'], 100, 2000, 50)
   const sectionRef = useRef(null)
   const ctaTilt = useTilt()
@@ -101,35 +101,14 @@ const Hero = () => {
   const springX = useSpring(mouseX, { stiffness: 800, damping: 30 })
   const springY = useSpring(mouseY, { stiffness: 800, damping: 30 })
 
-  const cardRef = useRef(null)
-  const tiltX = useMotionValue(0)
-  const tiltY = useMotionValue(0)
-  const springTiltX = useSpring(tiltX, { stiffness: 150, damping: 20 })
-  const springTiltY = useSpring(tiltY, { stiffness: 150, damping: 20 })
-  const rotateX = useTransform(springTiltY, [-0.5, 0.5], ['10deg', '-10deg'])
-  const rotateY = useTransform(springTiltX, [-0.5, 0.5], ['-10deg', '10deg'])
-
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = (e) => {
     const rect = sectionRef.current?.getBoundingClientRect()
     if (!rect) return
     mouseX.set(e.clientX - rect.left)
     mouseY.set(e.clientY - rect.top)
+  }
 
-    if (cardRef.current) {
-      const cardRect = cardRef.current.getBoundingClientRect()
-      const cx = (e.clientX - cardRect.left) / cardRect.width - 0.5
-      const cy = (e.clientY - cardRect.top) / cardRect.height - 0.5
-      tiltX.set(cx)
-      tiltY.set(cy)
-    }
-  }, [])
-
-  const handleMouseLeave = useCallback(() => {
-    tiltX.set(0)
-    tiltY.set(0)
-  }, [])
-
-  const handleClick = useCallback((e) => {
+  const handleClick = (e) => {
     const rect = sectionRef.current?.getBoundingClientRect()
     if (!rect) return
     const x = e.clientX - rect.left
@@ -139,7 +118,7 @@ const Hero = () => {
     setTimeout(() => {
       setRipples(prev => prev.filter(r => r.id !== id))
     }, 800)
-  }, [])
+  }
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
@@ -157,7 +136,6 @@ const Hero = () => {
       className="hero"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
       {/* Music Toggle */}
@@ -272,7 +250,6 @@ const Hero = () => {
 
             <div className="hero-buttons">
               <motion.button
-                ref={ctaTilt.ref}
                 className="cta-button"
                 onClick={(e) => { e.stopPropagation(); scrollToProjects() }}
                 onMouseMove={ctaTilt.onMouseMove}
@@ -287,7 +264,6 @@ const Hero = () => {
                 View My Work
               </motion.button>
               <motion.a
-                ref={cvTilt.ref}
                 href="/Cajegas Resume.pdf"
                 download="John_Laurence_Cajegas_CV.pdf"
                 className="cv-button"
@@ -335,4 +311,4 @@ const Hero = () => {
   )
 }
 
-export default Hero
+export default HeroSection

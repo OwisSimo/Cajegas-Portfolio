@@ -73,7 +73,7 @@ const TiltCard = ({ skill }) => {
   )
 }
 
-const Skills = () => {
+const SkillsSection = () => {
   const duplicatedSkills = [...skills, ...skills, ...skills]
 
   const containerVariants = {
@@ -117,4 +117,4 @@ const Skills = () => {
   )
 }
 
-export default Skills
+export default SkillsSection

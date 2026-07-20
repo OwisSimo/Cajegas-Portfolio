@@ -42,7 +42,7 @@ const projects = [
   }
 ]
 
-const Projects = () => {
+const ProjectsSection = () => {
   const [active, setActive] = useState(0)
   const project = projects[active]
 
@@ -190,4 +190,4 @@ const Projects = () => {
   )
 }
 
-export default Projects
+export default ProjectsSection

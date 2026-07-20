@@ -1,7 +1,29 @@
-import { motion } from 'framer-motion'
-import profileImg from '../assets/Profile.webp'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const About = () => {
+import owis1 from '../assets/Profile/owis1.webp'
+import owis2 from '../assets/Profile/owis2.webp'
+import owis3 from '../assets/Profile/owis3.webp'
+import owis4 from '../assets/Profile/owis4.webp'
+
+const photos = [
+  { src: owis1, alt: 'John Laurence - Photo 1' },
+  { src: owis2, alt: 'John Laurence - Photo 2' },
+  { src: owis3, alt: 'John Laurence - Photo 3' },
+  { src: owis4, alt: 'John Laurence - Photo 4' }
+]
+
+const AboutSection = () => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Continuous auto slideshow every 3.5 seconds without needing user interaction
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % photos.length)
+    }, 3500)
+    return () => clearInterval(timer)
+  }, [])
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -21,6 +43,20 @@ const About = () => {
         duration: 0.6,
         ease: 'easeOut'
       }
+    }
+  }
+
+  const slideVariants = {
+    initial: {
+      opacity: 0
+    },
+    animate: {
+      opacity: 1,
+      transition: { duration: 1.2, ease: 'easeInOut' }
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: 1.2, ease: 'easeInOut' }
     }
   }
 
@@ -54,15 +90,22 @@ const About = () => {
             </p>
           </motion.div>
 
-          {/* Right: Image + Badge */}
+          {/* Right: Automated Crossfade Image Slideshow + Badge */}
           <motion.div className="about-image-wrapper" variants={itemVariants}>
             <div className="about-image-frame">
-              <div className="profile-container">
-                <img
-                  src={profileImg}
-                  alt="John Laurence - Front-End Developer"
-                  className="profile-img"
-                />
+              <div className="profile-container auto-slideshow-container">
+                <AnimatePresence>
+                  <motion.img
+                    key={currentIndex}
+                    src={photos[currentIndex].src}
+                    alt={photos[currentIndex].alt}
+                    className="profile-img"
+                    variants={slideVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                  />
+                </AnimatePresence>
 
                 {/* Hover Overlay */}
                 <motion.div
@@ -81,11 +124,10 @@ const About = () => {
               </div>
             </div>
           </motion.div>
-
         </motion.div>
       </div>
     </section>
   )
 }
 
-export default About
+export default AboutSection

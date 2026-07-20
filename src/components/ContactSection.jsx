@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { FaGithub, FaFacebook, FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
-const Contact = () => {
+const ContactSection = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
@@ -20,7 +20,7 @@ const Contact = () => {
   ]
 
   return (
-    <section id="contact" className="contact section-zebra-dark">
+    <section id="contact" className="contact section-zebra-light">
       <div className="container">
         <motion.div
           className="section-content"
@@ -36,25 +36,28 @@ const Contact = () => {
           </motion.p>
 
           <motion.div className="contact-links" variants={itemVariants}>
-            {contactLinks.map(({ href, icon: Icon, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                className="contact-link"
-                target={href.startsWith('mailto') ? '_self' : '_blank'}
-                rel="noopener noreferrer"
-                whileHover={{
-                  y: -4,
-                  borderColor: 'var(--color-muted-green)',
-                  boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
-                  backgroundColor: 'rgba(98, 122, 92, 0.12)',
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                <Icon />
-                <span>{label}</span>
-              </motion.a>
-            ))}
+            {contactLinks.map((link) => {
+              const Icon = link.icon
+              return (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  className="contact-link"
+                  target={link.href.startsWith('mailto') ? '_self' : '_blank'}
+                  rel="noopener noreferrer"
+                  whileHover={{
+                    y: -4,
+                    borderColor: 'var(--color-muted-green)',
+                    boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
+                    backgroundColor: 'rgba(98, 122, 92, 0.12)',
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Icon />
+                  <span>{link.label}</span>
+                </motion.a>
+              )
+            })}
           </motion.div>
 
         </motion.div>
@@ -63,4 +66,4 @@ const Contact = () => {
   )
 }
 
-export default Contact
+export default ContactSection
