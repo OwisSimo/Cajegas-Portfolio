@@ -69,42 +69,54 @@ const HeroSection = () => {
   // Audio state
   const audioRef = useRef(null)
   const [isMuted, setIsMuted] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
   const isMutedRef = useRef(false)
 
   useEffect(() => {
-    audioRef.current = new Audio('/C418 - Subwoofer Lullaby - Minecraft Volume Alpha.mp3')
-    audioRef.current.loop = true
-    audioRef.current.volume = 0.3
+    const audio = new Audio('/C418 - Subwoofer Lullaby - Minecraft Volume Alpha.mp3')
+    audio.loop = true
+    audio.volume = 0.3
+    audioRef.current = audio
 
-    const playOnFirstInteract = () => {
-      if (!isMutedRef.current) {
-        audioRef.current?.play().catch(() => {})
+    const playAudio = () => {
+      if (!isMutedRef.current && audioRef.current) {
+        audioRef.current.play().then(() => {
+          setIsMuted(false)
+        }).catch(() => {})
       }
-      document.removeEventListener('click', playOnFirstInteract)
-      document.removeEventListener('keydown', playOnFirstInteract)
-      document.removeEventListener('touchstart', playOnFirstInteract)
     }
 
-    audioRef.current.play().catch(() => {
-      setIsMuted(true)
-      isMutedRef.current = true
-      document.addEventListener('click', playOnFirstInteract)
-      document.addEventListener('keydown', playOnFirstInteract)
-      document.addEventListener('touchstart', playOnFirstInteract)
+    const handleUserGesture = () => {
+      playAudio()
+      cleanup()
+    }
+
+    const cleanup = () => {
+      window.removeEventListener('click', handleUserGesture)
+      window.removeEventListener('scroll', handleUserGesture)
+      window.removeEventListener('keydown', handleUserGesture)
+      window.removeEventListener('touchstart', handleUserGesture)
+    }
+
+    // Attempt immediate autoplay
+    audio.play().then(() => {
+      setIsMuted(false)
+      isMutedRef.current = false
+    }).catch(() => {
+      // Browser blocked autoplay without user gesture; attach listeners for first interaction
+      window.addEventListener('click', handleUserGesture, { once: true, passive: true })
+      window.addEventListener('scroll', handleUserGesture, { once: true, passive: true })
+      window.addEventListener('keydown', handleUserGesture, { once: true, passive: true })
+      window.addEventListener('touchstart', handleUserGesture, { once: true, passive: true })
     })
 
     return () => {
-      audioRef.current?.pause()
+      cleanup()
+      audio.pause()
       audioRef.current = null
-      document.removeEventListener('click', playOnFirstInteract)
-      document.removeEventListener('keydown', playOnFirstInteract)
-      document.removeEventListener('touchstart', playOnFirstInteract)
     }
   }, [])
 
   const toggleMusic = () => {
-    if (!hasInteracted) setHasInteracted(true)
     if (isMutedRef.current) {
       audioRef.current?.play().catch(() => {})
       setIsMuted(false)

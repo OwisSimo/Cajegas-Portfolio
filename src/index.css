@@ -7,6 +7,12 @@
   box-sizing: border-box;
 }
 
+/* GPU Acceleration & Performance Optimizations */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
@@ -15,6 +21,20 @@ body {
   background-color: var(--bg-primary);
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hardware Compositing Hints for Low-End Devices */
+.floating-pill-nav-wrapper,
+.floating-pill-nav,
+.about-landscape-img,
+.bento-exp-card,
+.project-card,
+.certificate-card,
+.skills-carousel {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 h1,
