@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaGithub, FaArrowLeft } from 'react-icons/fa'
+import '../../styles/coming-soon.css'
 
 const ComingSoon = () => {
   const navigate = useNavigate()

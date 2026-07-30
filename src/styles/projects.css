@@ -1,0 +1,319 @@
+/* ============================================================
+   PROJECTS SECTION (Horizontal Scroll Layout)
+   ============================================================ */
+.projects-section-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  background-color: var(--bg-primary);
+}
+
+.projects-section-wrapper .section-content h2 {
+  margin-bottom: 12px !important;
+}
+
+.projects-track-outer {
+  overflow: visible;
+  width: 100vw;
+  margin-top: 15px;
+}
+
+.projects-track-inner {
+  display: flex;
+  gap: 32px;
+  padding-left: 12vw;
+  padding-right: 12vw;
+  width: max-content;
+  height: 480px;
+}
+
+/* Scroll Project Card */
+.scroll-project-card {
+  width: 380px !important;
+  height: 100% !important;
+  border-radius: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transform: translateZ(0);
+}
+
+.scroll-project-card:hover {
+  border-color: var(--color-muted-green);
+  box-shadow: 0 15px 40px rgba(98, 122, 92, 0.25);
+  transform: translateY(-5px);
+}
+
+/* Media Box */
+.card-media-box {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: rgba(15, 23, 18, 0.5);
+  flex-shrink: 0;
+}
+
+.project-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-project-card:hover .project-card-image {
+  transform: scale(1.06);
+}
+
+.project-card-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(98, 122, 92, 0.15) 0%, rgba(15, 23, 18, 0.8) 100%);
+}
+
+.placeholder-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(98, 122, 92, 0.3) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.4;
+}
+
+.placeholder-center-icon {
+  font-size: 2.6rem;
+  color: var(--color-muted-green);
+  position: relative;
+  z-index: 1;
+}
+
+.placeholder-watermark-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+  font-family: 'Outfit', sans-serif;
+}
+
+.card-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(15, 23, 18, 0.85) 100%);
+  pointer-events: none;
+}
+
+.card-category-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: rgba(15, 23, 18, 0.75);
+  border: 1px solid var(--border-color);
+  padding: 4px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+}
+
+:root[data-theme='light'] .card-category-badge {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Card Content Body */
+.card-content-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+}
+
+.card-content-body h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+.card-content-body p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  font-family: 'Outfit', sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tech Tags */
+.tech-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+  margin-top: auto;
+  overflow: hidden;
+}
+
+.tech-card-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-muted-green);
+  background: rgba(98, 122, 92, 0.12);
+  border: 1px solid rgba(98, 122, 92, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* Actions Links */
+.project-action-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.action-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.action-link-btn.code-btn {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.action-link-btn.code-btn:hover {
+  border-color: var(--color-muted-green);
+  color: var(--color-muted-green);
+}
+
+.action-link-btn.demo-btn {
+  background: var(--color-muted-green);
+  color: #ffffff;
+  border: 1px solid var(--color-muted-green);
+  box-shadow: 0 4px 15px rgba(98, 122, 92, 0.3);
+}
+
+.action-link-btn.demo-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(98, 122, 92, 0.45);
+}
+
+/* Filter Pills */
+.projects-filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-pill-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.filter-pill-btn:hover {
+  border-color: var(--color-muted-green);
+  color: var(--color-muted-green);
+}
+
+.filter-pill-btn.active {
+  border-color: transparent;
+}
+
+.filter-active-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-muted-green);
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+.filter-pill-text {
+  position: relative;
+  z-index: 1;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.filter-pill-btn.active .filter-pill-text {
+  color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .projects-track-inner {
+    gap: 20px;
+    padding-left: 6vw;
+    padding-right: 6vw;
+    height: 420px;
+  }
+
+  .scroll-project-card {
+    width: 290px !important;
+  }
+
+  .card-media-box {
+    height: 160px;
+  }
+
+  .card-content-body {
+    padding: 16px;
+  }
+
+  .card-content-body h3 {
+    font-size: 1.15rem;
+  }
+
+  .card-content-body p {
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+  }
+
+  .tech-tags-list {
+    margin-bottom: 12px;
+  }
+}

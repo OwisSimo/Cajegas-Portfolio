@@ -1,0 +1,113 @@
+/* ============================================================
+   PREMIUM MONOGRAM LOADING SCREEN (System Theme Integrated)
+   ============================================================ */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+/* Box wrapper */
+.loader-box-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-box {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Corner plus signs */
+.corner-plus {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-muted-green);
+  transition: color 0.3s ease;
+  text-shadow: 0 0 8px rgba(98, 122, 92, 0.4);
+}
+
+.corner-plus.top-left {
+  top: -11px;
+  left: -6px;
+}
+
+.corner-plus.top-right {
+  top: -11px;
+  right: -6px;
+}
+
+.corner-plus.bottom-left {
+  bottom: -11px;
+  left: -6px;
+}
+
+.corner-plus.bottom-right {
+  bottom: -11px;
+  right: -6px;
+}
+
+/* Monogram Logo */
+.loader-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-logo-text {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-left: 4px; /* Offset spacing to center letter group */
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+  text-shadow: 0 0 20px rgba(98, 122, 92, 0.2);
+}
+
+/* Motto below box */
+.loader-motto {
+  margin-top: 24px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+  text-align: center;
+}
+
+/* Progress counter at page bottom */
+.loader-counter {
+  position: absolute;
+  bottom: 60px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}

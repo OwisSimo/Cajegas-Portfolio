@@ -1,6 +1,7 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react'
 import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
+import { Box, Heading, Text, Image } from '@chakra-ui/react'
 
 import NetworkSecurityCert from '../../assets/Certificates/Network-Security.webp'
 import DatabasesCert from '../../assets/Certificates/Databases.webp'
@@ -11,6 +12,7 @@ import InnovativeCultureCert from '../../assets/Certificates/Innovative-Culture.
 import OfficeEtiquetteCert from '../../assets/Certificates/Office-Etiquette.webp'
 import GithubCert from '../../assets/Certificates/Github.webp'
 import JavascriptCert from '../../assets/Certificates/Javascript.webp'
+import '../../styles/certificates.css'
 
 const certificates = [
   {
@@ -87,6 +89,10 @@ const certificates = [
   }
 ]
 
+const MotionBox = motion.create(Box)
+const MotionHeading = motion.create(Heading)
+const MotionText = motion.create(Text)
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -127,7 +133,7 @@ const TiltCertCard = ({ cert, onSelect }) => {
   }
 
   return (
-    <motion.div
+    <MotionBox
       className="cert-mini-card"
       variants={itemVariants}
       style={{
@@ -148,21 +154,21 @@ const TiltCertCard = ({ cert, onSelect }) => {
       title="Click to view certificate"
     >
       {/* Full Background Banner & Certificate Image */}
-      <div className="cert-card-banner">
-        <img src={cert.image} alt={cert.title} />
-        <div className="cert-card-gradient" />
-        <span className="cert-cat-badge">{cert.issuer}</span>
-      </div>
+      <Box className="cert-card-banner">
+        <Image src={cert.image} alt={cert.title} />
+        <Box className="cert-card-gradient" />
+        <Box as="span" className="cert-cat-badge">{cert.issuer}</Box>
+      </Box>
 
       {/* Overlaid Title & Metadata Tags */}
-      <div className="cert-card-overlay">
-        <h4>{cert.title}</h4>
-        <div className="cert-meta-tags">
-          <span className="cert-badge-sm">{cert.date}</span>
-          <span className="cert-badge-sm">{cert.issuer}</span>
-        </div>
-      </div>
-    </motion.div>
+      <Box className="cert-card-overlay">
+        <Heading as="h4">{cert.title}</Heading>
+        <Box className="cert-meta-tags">
+          <Box as="span" className="cert-badge-sm">{cert.date}</Box>
+          <Box as="span" className="cert-badge-sm">{cert.issuer}</Box>
+        </Box>
+      </Box>
+    </MotionBox>
   )
 }
 
@@ -170,35 +176,35 @@ const CertificatesSection = () => {
   const [selectedCert, setSelectedCert] = useState(null)
 
   return (
-    <section id="certificates" className="certificates section-zebra-dark">
-      <div className="container">
-        <motion.div
+    <Box as="section" id="certificates" className="certificates section-zebra-dark">
+      <Box className="container">
+        <MotionBox
           className="section-content"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.h2 variants={itemVariants}>Certificates</motion.h2>
-          <motion.div className="certificates-grid" variants={itemVariants}>
+          <MotionHeading as="h2" variants={itemVariants}>Certificates</MotionHeading>
+          <MotionBox className="certificates-grid" variants={itemVariants}>
             {certificates.map((cert) => (
               <TiltCertCard key={cert.title} cert={cert} onSelect={setSelectedCert} />
             ))}
-          </motion.div>
-        </motion.div>
-      </div>
+          </MotionBox>
+        </MotionBox>
+      </Box>
 
       {/* Modal */}
       <AnimatePresence>
         {selectedCert && (
-          <motion.div
+          <MotionBox
             className="cert-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedCert(null)}
           >
-            <motion.div
+            <MotionBox
               className="cert-modal"
               initial={{ opacity: 0, scale: 0.85, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -206,29 +212,30 @@ const CertificatesSection = () => {
               transition={{ duration: 0.3, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img
+              <Image
                 src={selectedCert.image}
                 alt={selectedCert.title}
                 className="cert-modal-img"
               />
-              <div className="cert-modal-info">
-                <span className="cert-modal-issuer">
+              <Box className="cert-modal-info">
+                <Box as="span" className="cert-modal-issuer">
                   {selectedCert.issuer} · {selectedCert.date}
-                </span>
-                <h3 className="cert-modal-title">{selectedCert.title}</h3>
-                <p className="cert-modal-desc">{selectedCert.description}</p>
-              </div>
-              <button
+                </Box>
+                <Heading as="h3" className="cert-modal-title">{selectedCert.title}</Heading>
+                <MotionText className="cert-modal-desc">{selectedCert.description}</MotionText>
+              </Box>
+              <Box
+                as="button"
                 className="cert-modal-close"
                 onClick={() => setSelectedCert(null)}
               >
                 <FaTimes />
-              </button>
-            </motion.div>
-          </motion.div>
+              </Box>
+            </MotionBox>
+          </MotionBox>
         )}
       </AnimatePresence>
-    </section>
+    </Box>
   )
 }
 

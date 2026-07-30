@@ -1,12 +1,28 @@
-import { motion, useScroll, useTransform } from 'motion/react'
-import { useRef } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FaGithub, FaExternalLinkAlt, FaCode, FaLaptopCode, FaMobileAlt, FaDesktop } from 'react-icons/fa'
+import { Box, Heading, Text, Image, SimpleGrid } from '@chakra-ui/react'
+import { FaGithub, FaExternalLinkAlt, FaCode, FaLaptopCode, FaMobileAlt, FaDesktop, FaGooglePlay, FaApple } from 'react-icons/fa'
 import PawfectCut from '../../assets/projects/PawfectCut.webp'
 import RainbowLoop from '../../assets/projects/RainbowLoop.webp'
 import BookQuest from '../../assets/projects/BookQuest.webp'
+import ManPro from '../../assets/projects/ManPro.webp'
+import '../../styles/projects.css'
 
 const projects = [
+  {
+    id: 'manpro-mobile',
+    title: 'ManPro Mobile',
+    category: 'Mobile App',
+    image: ManPro,
+    description: 'Led the UI/UX redesign and optimization of the ManPro Mobile payroll app for Infinity Hub. Restructured PEME records, KPI tracking modules, and onboarding layouts to improve user flow.',
+    technologies: ['UI/UX Design', 'Mobile UI', 'Quality Assurance'],
+    links: {
+      playStore: 'https://play.google.com/store/apps/details?id=com.manpro_payroll_mobile&pcampaignid=web_share',
+      appStore: 'https://apps.apple.com/ph/app/manpro/id6745999887'
+    },
+    icon: FaMobileAlt
+  },
   {
     id: 'pawfectcut',
     title: 'PawfectCut',
@@ -59,99 +75,181 @@ const projects = [
   }
 ]
 
-const ProjectsSection = () => {
-  const targetRef = useRef(null)
+const MotionBox = motion.create(Box)
+const MotionHeading = motion.create(Heading)
+const MotionText = motion.create(Text)
 
-  // Track scroll progress of the wrapper container
-  const { scrollYProgress } = useScroll({
-    target: targetRef
+const filterCategories = ['All', 'Web Apps', 'Mobile', 'Desktop']
+
+const ProjectsSection = ({ x, filter, setFilter }) => {
+
+  // Filter projects by category
+  const filteredProjects = projects.filter((proj) => {
+    if (filter === 'All') return true
+    if (filter === 'Web Apps') return proj.category.toLowerCase().includes('web')
+    if (filter === 'Mobile') return proj.category.toLowerCase().includes('mobile')
+    if (filter === 'Desktop') return proj.category.toLowerCase().includes('desktop')
+    return true
   })
 
-  // Map vertical scroll progress to horizontal translation
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-65%'])
-
   return (
-    <div className="projects-carousel-wrapper" id="projects">
-      {/* Section Header above the horizontal carousel */}
-      <div className="projects-carousel-header container">
-        <span className="section-eyebrow">     </span>
-        <h2 className="projects-heading">Featured Projects</h2>
-        <p className="projects-subheading">Scroll down to explore my work</p>
-      </div>
+    <Box className="projects-section-wrapper" py="80px" bg="var(--bg-primary)">
+      {/* Section Header */}
+      <Box className="container">
+        <Box className="section-content" style={{ paddingBottom: '30px' }}>
+          <MotionHeading as="h2">Featured Projects</MotionHeading>
+          <MotionText className="projects-subheading" style={{ marginTop: '25px', marginBottom: '20px' }}>
+            A curated selection of my digital creations and designs
+          </MotionText>
 
-      {/* Interactive Sticky Scroll Carousel */}
-      <section ref={targetRef} className="projects-scroll-carousel-section">
-        <div className="projects-scroll-carousel-sticky">
-          <motion.div style={{ x }} className="projects-scroll-carousel-track">
-            {projects.map((proj) => {
+          {/* Filter Pills */}
+          <Box className="projects-filter-container">
+            {filterCategories.map((cat) => {
+              const isActive = filter === cat
+              return (
+                <Box
+                  as="button"
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`filter-pill-btn ${isActive ? 'active' : ''}`}
+                >
+                  {isActive && (
+                    <MotionBox
+                      className="filter-active-bg"
+                      layoutId="activeFilterPill"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <Box as="span" className="filter-pill-text">{cat}</Box>
+                </Box>
+              )
+            })}
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Horizontal Scrolling Gallery */}
+      <Box style={{ overflow: 'visible', width: '100%', marginTop: '30px' }} className="projects-track-outer">
+        <MotionBox
+          style={{ x }}
+          display="flex"
+          gap="32px"
+          pl="12vw"
+          pr="12vw"
+          width="max-content"
+          className="projects-track-inner"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((proj) => {
               const CardIcon = proj.icon || FaCode
               return (
-                <div key={proj.id} className="scroll-project-card">
+                <MotionBox
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
+                  key={proj.id}
+                  className="scroll-project-card"
+                  style={{
+                    width: '380px',
+                    flexShrink: 0,
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
                   {/* Card Media Header */}
-                  <div className="card-media-box">
+                  <Box className="card-media-box">
                     {proj.image ? (
-                      <img src={proj.image} alt={proj.title} className="project-card-image" />
+                      <Image src={proj.image} alt={proj.title} className="project-card-image" />
                     ) : (
-                      <div className="project-card-placeholder">
-                        <div className="placeholder-pattern" />
-                        <CardIcon className="placeholder-center-icon" />
-                        <span className="placeholder-watermark-text">{proj.title}</span>
-                      </div>
+                      <Box className="project-card-placeholder">
+                        <Box className="placeholder-pattern" />
+                        <Box as={CardIcon} className="placeholder-center-icon" />
+                        <Box as="span" className="placeholder-watermark-text">{proj.title}</Box>
+                      </Box>
                     )}
-                    <div className="card-media-overlay" />
-                    <span className="card-category-badge">{proj.category}</span>
-                  </div>
+                    <Box className="card-media-overlay" />
+                    <Box as="span" className="card-category-badge">{proj.category}</Box>
+                  </Box>
 
                   {/* Card Content Body */}
-                  <div className="card-content-body">
-                    <h3>{proj.title}</h3>
-                    <p>{proj.description}</p>
+                  <Box className="card-content-body" display="flex" flexDirection="column" flex="1">
+                    <Heading as="h3">{proj.title}</Heading>
+                    <Text mb="20px" flex="1">{proj.description}</Text>
 
-                    <div className="tech-tags-list">
+                    <Box className="tech-tags-list" mt="auto">
                       {proj.technologies.map((tech) => (
-                        <span key={tech} className="tech-card-badge">
+                        <Box as="span" key={tech} className="tech-card-badge">
                           {tech}
-                        </span>
+                        </Box>
                       ))}
-                    </div>
+                    </Box>
 
-                    <div className="project-action-links">
+                    <Box className="project-action-links">
                       {proj.links.github && (
                         proj.links.github.startsWith('http') ? (
-                          <a
+                          <Box
+                            as="a"
                             href={proj.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="action-link-btn code-btn"
                           >
-                            <FaGithub /> <span>Code</span>
-                          </a>
+                            <FaGithub /> <Box as="span">Code</Box>
+                          </Box>
                         ) : (
-                          <Link to={proj.links.github} className="action-link-btn code-btn">
-                            <FaGithub /> <span>Code</span>
-                          </Link>
+                          <Box as={Link} to={proj.links.github} className="action-link-btn code-btn">
+                            <FaGithub /> <Box as="span">Code</Box>
+                          </Box>
                         )
                       )}
 
                       {proj.links.demo && (
-                        <a
+                        <Box
+                          as="a"
                           href={proj.links.demo}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="action-link-btn demo-btn"
                         >
-                          <FaExternalLinkAlt /> <span>Live Demo</span>
-                        </a>
+                          <FaExternalLinkAlt /> <Box as="span">Live Demo</Box>
+                        </Box>
                       )}
-                    </div>
-                  </div>
-                </div>
+
+                      {proj.links.playStore && (
+                        <Box
+                          as="a"
+                          href={proj.links.playStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="action-link-btn demo-btn"
+                        >
+                          <FaGooglePlay /> <Box as="span">Play Store</Box>
+                        </Box>
+                      )}
+
+                      {proj.links.appStore && (
+                        <Box
+                          as="a"
+                          href={proj.links.appStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="action-link-btn demo-btn"
+                        >
+                          <FaApple /> <Box as="span">App Store</Box>
+                        </Box>
+                      )}
+                    </Box>
+                  </Box>
+                </MotionBox>
               )
             })}
-          </motion.div>
-        </div>
-      </section>
-    </div>
+          </AnimatePresence>
+        </MotionBox>
+      </Box>
+    </Box>
   )
 }
 

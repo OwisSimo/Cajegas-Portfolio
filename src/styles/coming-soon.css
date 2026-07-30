@@ -1,0 +1,74 @@
+/* ============================================================
+   COMING SOON PAGE (Light & Dark Mode Support)
+   ============================================================ */
+.coming-soon-page {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  background-image: radial-gradient(circle at 50% 30%, rgba(98, 122, 92, 0.15), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: background-color 0.4s ease;
+}
+
+.coming-soon-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 60px 48px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 50px var(--shadow), 0 0 30px rgba(98, 122, 92, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.4s ease;
+}
+
+.coming-soon-icon {
+  font-size: 4rem;
+  color: var(--color-muted-green);
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(98, 122, 92, 0.3));
+}
+
+.coming-soon-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.coming-soon-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.coming-soon-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-muted-green);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.coming-soon-back:hover {
+  color: var(--text-primary);
+}

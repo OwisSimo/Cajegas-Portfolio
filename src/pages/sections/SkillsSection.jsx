@@ -1,4 +1,5 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { useTheme } from '../../context/ThemeContext'
 import {
   FaHtml5,
@@ -12,6 +13,7 @@ import {
   FaGithub,
   FaBolt,
 } from 'react-icons/fa'
+import '../../styles/skills.css'
 
 const skills = [
   { name: 'HTML5', icon: FaHtml5 },
@@ -25,6 +27,9 @@ const skills = [
   { name: 'Figma', icon: FaFigma },
   { name: 'Laravel', icon: FaLaravel },
 ]
+
+const MotionBox = motion.create(Box)
+const MotionHeading = motion.create(Heading)
 
 const TiltCard = ({ skill }) => {
   const IconComponent = skill.icon
@@ -57,7 +62,7 @@ const TiltCard = ({ skill }) => {
   const baseShadow = '0 4px 15px var(--shadow)'
 
   return (
-    <motion.div
+    <MotionBox
       className="skill-card-carousel"
       style={{
         rotateX,
@@ -79,9 +84,9 @@ const TiltCard = ({ skill }) => {
       }}
       transition={{ duration: 0.2 }}
     >
-      <IconComponent className="skill-icon" />
-      <span className="skill-name">{skill.name}</span>
-    </motion.div>
+      <Box as={IconComponent} className="skill-icon" />
+      <Box as="span" className="skill-name">{skill.name}</Box>
+    </MotionBox>
   )
 }
 
@@ -89,20 +94,20 @@ const SkillsSection = () => {
   const duplicatedSkills = [...skills, ...skills, ...skills]
 
   return (
-    <section id="skills" className="skills section-zebra-light">
-      <div className="container">
-        <div className="section-content">
-          <h2>Skills &amp; Technologies</h2>
-          <div className="skills-carousel-container">
-            <div className="skills-carousel">
+    <Box as="section" id="skills" className="skills section-zebra-light">
+      <Box className="container">
+        <Box className="section-content">
+          <MotionHeading as="h2">Skills &amp; Technologies</MotionHeading>
+          <Box className="skills-carousel-container">
+            <Box className="skills-carousel">
               {duplicatedSkills.map((skill, index) => (
                 <TiltCard key={`${skill.name}-${index}`} skill={skill} />
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

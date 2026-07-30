@@ -15,6 +15,7 @@ import { useTypingEffect } from '../../hooks/useTypingEffect'
 import { FaVolumeUp, FaVolumeMute, FaDownload, FaArrowRight, FaStar } from 'react-icons/fa'
 import { useRef, useState, useEffect } from 'react'
 import arrowDown from '../../assets/AssetsImages/ArrowDown.webp'
+import '../../styles/hero.css'
 
 // Create motion-wrapped Chakra UI components
 const MotionBox = motion.create(Box)

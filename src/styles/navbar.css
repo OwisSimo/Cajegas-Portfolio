@@ -1,0 +1,295 @@
+/* ============================================================
+   FLOATING GLASS PILL ISLAND NAVBAR
+   ============================================================ */
+.floating-pill-nav-wrapper {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  padding: 0 16px;
+}
+
+.floating-pill-nav {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 54px;
+  padding: 0 14px 0 20px;
+  border-radius: 9999px;
+  background: rgba(26, 26, 26, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(98, 122, 92, 0.35);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(98, 122, 92, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+:root[data-theme='light'] .floating-pill-nav {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 0 15px rgba(98, 122, 92, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.floating-pill-nav-wrapper.scrolled .floating-pill-nav {
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.45),
+    0 0 25px rgba(98, 122, 92, 0.25);
+  border-color: var(--color-muted-green);
+}
+
+/* Logo & Status Badge */
+.pill-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pill-logo-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.pill-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+/* Links Nav */
+.pill-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pill-link-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+}
+
+.pill-link-text {
+  position: relative;
+  z-index: 2;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.pill-link-btn:hover .pill-link-text,
+.pill-link-btn.active .pill-link-text {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+:root[data-theme='dark'] .pill-link-btn.active .pill-link-text {
+  color: #ffffff;
+}
+
+:root[data-theme='light'] .pill-link-btn.active .pill-link-text {
+  color: #ffffff;
+}
+
+/* Active Sliding Pill Highlight */
+.pill-active-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-muted-green);
+  border-radius: 9999px;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(98, 122, 92, 0.4);
+}
+
+/* Actions & Theme Toggle */
+.pill-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill-theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: var(--color-muted-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+:root[data-theme='light'] .pill-theme-toggle {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.pill-mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Mobile Floating Dropdown */
+.pill-mobile-menu {
+  pointer-events: auto;
+  position: absolute;
+  top: 64px;
+  left: 16px;
+  right: 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 10px 30px var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.pill-mobile-item {
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-mobile-item.active,
+.pill-mobile-item:hover {
+  background: rgba(98, 122, 92, 0.15);
+  color: var(--color-muted-green);
+}
+
+@media (max-width: 860px) {
+  .pill-links {
+    display: none;
+  }
+
+  .pill-mobile-toggle {
+    display: block;
+  }
+
+  .floating-pill-nav {
+    width: 100%;
+    padding: 0 16px;
+  }
+}
+
+.theme-toggle {
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  padding: 0;
+}
+
+.theme-toggle>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-toggle:hover {
+  background: rgba(98, 122, 92, 0.2);
+  border-color: var(--color-muted-green);
+}
+
+/* --- Mobile Menu Toggle --- */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+  background-color: rgba(252, 252, 252, 0.1);
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-primary);
+    flex-direction: column;
+    gap: 0;
+    padding: 20px;
+    transform: translateY(-110%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 99;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-links a {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(252, 252, 252, 0.1);
+    display: block;
+  }
+}

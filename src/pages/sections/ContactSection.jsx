@@ -1,5 +1,11 @@
 import { motion } from 'motion/react'
 import { FaGithub, FaFacebook, FaLinkedin, FaEnvelope } from 'react-icons/fa'
+import { Box, Heading, Text } from '@chakra-ui/react'
+import '../../styles/contact.css'
+
+const MotionBox = motion.create(Box)
+const MotionHeading = motion.create(Heading)
+const MotionText = motion.create(Text)
 
 const ContactSection = () => {
   const containerVariants = {
@@ -20,26 +26,27 @@ const ContactSection = () => {
   ]
 
   return (
-    <section id="contact" className="contact section-zebra-light">
-      <div className="container">
-        <motion.div
+    <Box as="section" id="contact" className="contact section-zebra-light">
+      <Box className="container">
+        <MotionBox
           className="section-content"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <motion.h2 variants={itemVariants}>Get In Touch</motion.h2>
+          <MotionHeading as="h2" variants={itemVariants}>Get In Touch</MotionHeading>
 
-          <motion.p className="contact-tagline" variants={itemVariants}>
+          <MotionText className="contact-tagline" variants={itemVariants}>
             Welcoming new opportunities and the thrill of exploration.
-          </motion.p>
+          </MotionText>
 
-          <motion.div className="contact-links" variants={itemVariants}>
+          <MotionBox className="contact-links" variants={itemVariants}>
             {contactLinks.map((link) => {
               const Icon = link.icon
               return (
-                <motion.a
+                <MotionBox
+                  as="a"
                   key={link.label}
                   href={link.href}
                   className="contact-link"
@@ -54,15 +61,15 @@ const ContactSection = () => {
                   transition={{ duration: 0.2 }}
                 >
                   <Icon />
-                  <span>{link.label}</span>
-                </motion.a>
+                  <Box as="span">{link.label}</Box>
+                </MotionBox>
               )
             })}
-          </motion.div>
+          </MotionBox>
 
-        </motion.div>
-      </div>
-    </section>
+        </MotionBox>
+      </Box>
+    </Box>
   )
 }
 

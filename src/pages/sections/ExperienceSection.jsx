@@ -1,7 +1,8 @@
 import { motion } from 'motion/react'
 import { FaCalendarAlt, FaCheckCircle, FaExternalLinkAlt, FaMobileAlt, FaLayerGroup } from 'react-icons/fa'
-import { Badge } from '@chakra-ui/react'
+import { Box, Heading, Text, Badge, Image } from '@chakra-ui/react'
 import infinityHubLogo from '../../assets/AssetsImages/Infinity hub logo.png'
+import '../../styles/experience.css'
 
 const experiences = [
   {
@@ -23,6 +24,10 @@ const experiences = [
     techStack: ['UI/UX Design', 'Mobile UI', 'Frontend Development', 'Quality Assurance']
   }
 ]
+
+const MotionBox = motion.create(Box)
+const MotionHeading = motion.create(Heading)
+const MotionText = motion.create(Text)
 
 const gridVariants = {
   hidden: { opacity: 0 },
@@ -50,20 +55,20 @@ const tileVariants = {
 
 const ExperienceSection = () => {
   return (
-    <section id="experience" className="experience section-zebra-light">
-      <div className="container">
-        <motion.div
+    <Box as="section" className="experience section-zebra-light">
+      <Box className="container">
+        <MotionBox
           className="section-content"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="section-title">Experience</h2>
+          <MotionHeading as="h2">Experience</MotionHeading>
 
-          <div className="bento-exp-container">
+          <Box className="bento-exp-container">
             {experiences.map((exp) => (
-              <motion.div
+              <MotionBox
                 key={exp.id}
                 className="bento-exp-grid"
                 variants={gridVariants}
@@ -72,116 +77,119 @@ const ExperienceSection = () => {
                 viewport={{ once: true, amount: 0.2 }}
               >
                 {/* Bento Block 1: Header & Branding */}
-                <motion.div
+                <MotionBox
                   className="bento-card bento-header-card"
                   variants={tileVariants}
                   whileHover={{ y: -5, scale: 1.01 }}
                   transition={{ duration: 0.25 }}
                 >
                   {exp.logo && (
-                    <a
+                    <Box
+                      as="a"
                       href={exp.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bento-logo-link"
                       title={`Visit ${exp.company}`}
                     >
-                      <motion.div
+                      <MotionBox
                         className="bento-logo-box"
                         whileHover={{ scale: 1.06, rotate: 1 }}
                         whileTap={{ scale: 0.96 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                       >
-                        <img src={exp.logo} alt={exp.company} className="bento-logo-img" />
-                      </motion.div>
-                    </a>
+                        <Image src={exp.logo} alt={exp.company} className="bento-logo-img" />
+                      </MotionBox>
+                    </Box>
                   )}
-                  <div className="bento-header-info">
-                    <div className="bento-title-block">
-                      <h3 className="bento-role">{exp.role}</h3>
-                      <h4 className="bento-company">
+                  <Box className="bento-header-info">
+                    <Box className="bento-title-block">
+                      <Heading as="h3" className="bento-role">{exp.role}</Heading>
+                      <Heading as="h4" className="bento-company">
                         {exp.website ? (
-                          <a
+                          <Box
+                            as="a"
                             href={exp.website}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="company-link"
                           >
                             {exp.company} <FaExternalLinkAlt className="external-link-icon" />
-                          </a>
+                          </Box>
                         ) : (
                           exp.company
                         )}
-                      </h4>
-                    </div>
-                    <div className="bento-meta">
+                      </Heading>
+                    </Box>
+                    <Box className="bento-meta">
                       <Badge className="experience-type-badge">{exp.type}</Badge>
-                      <span className="experience-period">
+                      <Box as="span" className="experience-period">
                         <FaCalendarAlt /> {exp.period}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
+                      </Box>
+                    </Box>
+                  </Box>
+                </MotionBox>
 
                 {/* Bento Block 2: Project Spotlight */}
-                <motion.div
+                <MotionBox
                   className="bento-card bento-spotlight-card"
                   variants={tileVariants}
                   whileHover={{ y: -5, scale: 1.01 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <div className="bento-card-badge">
+                  <Box className="bento-card-badge">
                     <FaMobileAlt /> Project Focus
-                  </div>
-                  <h4 className="bento-spotlight-title">ManPro Mobile System Redesign</h4>
-                  <p className="bento-summary">{exp.summary}</p>
-                </motion.div>
+                  </Box>
+                  <Heading as="h4" className="bento-spotlight-title">ManPro Mobile System Redesign</Heading>
+                  <Text className="bento-summary">{exp.summary}</Text>
+                </MotionBox>
 
                 {/* Bento Block 3: Key Contributions Grid */}
-                <motion.div
+                <MotionBox
                   className="bento-card bento-highlights-card"
                   variants={tileVariants}
                   whileHover={{ y: -5, scale: 1.01 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <h5 className="highlights-title">Key Contributions & Deliverables</h5>
-                  <div className="bento-highlights-grid">
+                  <Heading as="h5" className="highlights-title">Key Contributions & Deliverables</Heading>
+                  <Box className="bento-highlights-grid">
                     {exp.highlights.map((item, idx) => {
                       const [title, desc] = item.split(': ')
                       return (
-                        <motion.div
+                        <MotionBox
                           key={idx}
                           className="bento-highlight-tile"
                           whileHover={{ scale: 1.03, x: 4 }}
                           whileTap={{ scale: 0.98 }}
                           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                         >
-                          <div className="bento-tile-icon">
+                          <Box className="bento-tile-icon">
                             <FaCheckCircle />
-                          </div>
-                          <div>
-                            <h6 className="bento-tile-title">{title}</h6>
-                            <p className="bento-tile-desc">{desc}</p>
-                          </div>
-                        </motion.div>
+                          </Box>
+                          <Box>
+                            <Heading as="h6" className="bento-tile-title">{title}</Heading>
+                            <Text className="bento-tile-desc">{desc}</Text>
+                          </Box>
+                        </MotionBox>
                       )
                     })}
-                  </div>
-                </motion.div>
+                  </Box>
+                </MotionBox>
 
                 {/* Bento Block 4: Technologies & Core Skills */}
-                <motion.div
+                <MotionBox
                   className="bento-card bento-tech-card"
                   variants={tileVariants}
                   whileHover={{ y: -5, scale: 1.01 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <div className="bento-card-badge">
+                  <Box className="bento-card-badge">
                     <FaLayerGroup /> Core Competencies
-                  </div>
-                  <div className="bento-tech-grid">
+                  </Box>
+                  <Box className="bento-tech-grid">
                     {exp.techStack.map((tech, idx) => (
-                      <motion.span
+                      <MotionBox
+                        as="span"
                         key={idx}
                         className="tech-chip"
                         whileHover={{ scale: 1.08, y: -2 }}
@@ -189,16 +197,16 @@ const ExperienceSection = () => {
                         transition={{ type: 'spring', stiffness: 350, damping: 15 }}
                       >
                         {tech}
-                      </motion.span>
+                      </MotionBox>
                     ))}
-                  </div>
-                </motion.div>
-              </motion.div>
+                  </Box>
+                </MotionBox>
+              </MotionBox>
             ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
+          </Box>
+        </MotionBox>
+      </Box>
+    </Box>
   )
 }
 
