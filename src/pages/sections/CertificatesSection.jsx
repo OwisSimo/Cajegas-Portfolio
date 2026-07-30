@@ -2,9 +2,15 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 
-import NetworkSecurityCert from '../../assets/Certificates/Network-Security-Cert.webp'
-import DatabasesCert from '../../assets/Certificates/Databases-Cert.webp'
-import HtmlCssCert from '../../assets/Certificates/HTML-CSS-Cert.webp'
+import NetworkSecurityCert from '../../assets/Certificates/Network-Security.webp'
+import DatabasesCert from '../../assets/Certificates/Databases.webp'
+import HtmlCssCert from '../../assets/Certificates/HTML-CSS.webp'
+import AttendanceCert from '../../assets/Certificates/Attendance.webp'
+import GenderSensitivityCert from '../../assets/Certificates/Gender-Sensitivity.webp'
+import InnovativeCultureCert from '../../assets/Certificates/Innovative-Culture.webp'
+import OfficeEtiquetteCert from '../../assets/Certificates/Office-Etiquette.webp'
+import GithubCert from '../../assets/Certificates/Github.webp'
+import JavascriptCert from '../../assets/Certificates/Javascript.webp'
 
 const certificates = [
   {
@@ -29,6 +35,54 @@ const certificates = [
     date: 'February 2024',
     description: 'Certified in database design, querying, and management including relational database concepts and SQL operations.',
     image: DatabasesCert,
+    link: '#'
+  },
+  {
+    title: 'Version Control with Git & GitHub',
+    issuer: 'Academic Training',
+    date: 'July 2026',
+    description: 'Certified in version control fundamentals, repository management, branching, pull requests, and collaborative developer workflows.',
+    image: GithubCert,
+    link: '#'
+  },
+  {
+    title: 'JavaScript Essentials',
+    issuer: 'Academic Training',
+    date: 'July 2026',
+    description: 'Certified in JavaScript essentials including data types, operators, control structures, functions, and object-oriented programming concepts.',
+    image: JavascriptCert,
+    link: '#'
+  },
+  {
+    title: 'Innovative Culture in the Office',
+    issuer: 'Seminar Series',
+    date: 'April 2026',
+    description: 'Seminar completion on fostering innovation, creative problem-solving, and building modern workflow structures in the office.',
+    image: InnovativeCultureCert,
+    link: '#'
+  },
+  {
+    title: 'Office Etiquette & Work Ethics',
+    issuer: 'Seminar Series',
+    date: 'April 2026',
+    description: 'Seminar completion on corporate etiquette, professional standards, work ethics, and collaborative team communication.',
+    image: OfficeEtiquetteCert,
+    link: '#'
+  },
+  {
+    title: 'Gender Sensitivity',
+    issuer: 'Seminar Series',
+    date: 'April 2026',
+    description: 'Seminar completion on gender awareness, inclusivity, and maintaining a respectful and diverse workspace environment.',
+    image: GenderSensitivityCert,
+    link: '#'
+  },
+  {
+    title: 'Seminar Attendance & Completion',
+    issuer: 'Seminar Series',
+    date: 'April 2026',
+    description: 'Seminar completion and participation certificate demonstrating professional development and career readiness.',
+    image: AttendanceCert,
     link: '#'
   }
 ]
