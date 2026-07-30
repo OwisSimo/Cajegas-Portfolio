@@ -231,18 +231,19 @@ section[id] {
   }
 }
 
-color: var(--text-primary);
-width: 38px;
-height: 38px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-font-size: 1rem;
-transition: all 0.3s ease;
-backdrop-filter: blur(6px);
-padding: 0;
+.theme-toggle {
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  padding: 0;
 }
 
 .theme-toggle>div {
