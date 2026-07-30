@@ -2,9 +2,9 @@ import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from
 import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 
-import NetworkSecurityCert from '../assets/Certificates/Network-Security-Cert.webp'
-import DatabasesCert from '../assets/Certificates/Databases-Cert.webp'
-import HtmlCssCert from '../assets/Certificates/HTML-CSS-Cert.webp'
+import NetworkSecurityCert from '../../assets/Certificates/Network-Security-Cert.webp'
+import DatabasesCert from '../../assets/Certificates/Databases-Cert.webp'
+import HtmlCssCert from '../../assets/Certificates/HTML-CSS-Cert.webp'
 
 const certificates = [
   {

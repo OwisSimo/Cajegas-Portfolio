@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import owislandscape from '../assets/Profile/owislandscape.webp'
+import owislandscape from '../../assets/Profile/owislandscape.webp'
 import { FaCode, FaPalette, FaFileAlt, FaMagic } from 'react-icons/fa'
 
 const AboutSection = () => {

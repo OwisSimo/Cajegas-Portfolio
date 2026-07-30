@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
-import { useTheme } from '../context/ThemeContext'
+import { useTheme } from '../../context/ThemeContext'
 import {
   FaHtml5,
   FaCss3Alt,

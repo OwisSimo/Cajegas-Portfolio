@@ -2,9 +2,9 @@ import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { FaGithub, FaExternalLinkAlt, FaCode, FaLaptopCode, FaMobileAlt, FaDesktop } from 'react-icons/fa'
-import PawfectCut from '../assets/projects/PawfectCut.webp'
-import RainbowLoop from '../assets/projects/RainbowLoop.webp'
-import BookQuest from '../assets/projects/BookQuest.webp'
+import PawfectCut from '../../assets/projects/PawfectCut.webp'
+import RainbowLoop from '../../assets/projects/RainbowLoop.webp'
+import BookQuest from '../../assets/projects/BookQuest.webp'
 
 const projects = [
   {

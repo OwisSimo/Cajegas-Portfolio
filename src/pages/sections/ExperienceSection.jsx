@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
 import { FaCalendarAlt, FaCheckCircle, FaExternalLinkAlt, FaMobileAlt, FaLayerGroup } from 'react-icons/fa'
 import { Badge } from '@chakra-ui/react'
-import infinityHubLogo from '../assets/AssetsImages/Infinity hub logo.png'
+import infinityHubLogo from '../../assets/AssetsImages/Infinity hub logo.png'
 
 const experiences = [
   {

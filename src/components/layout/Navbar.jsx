@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa'
-import { useTheme } from '../context/ThemeContext'
+import { useTheme } from '../../context/ThemeContext'
 
 const navItems = [
   { id: 'about', label: 'About' },

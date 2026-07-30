@@ -11,10 +11,10 @@ import {
   VStack,
   Circle,
 } from '@chakra-ui/react'
-import { useTypingEffect } from '../hooks/useTypingEffect'
+import { useTypingEffect } from '../../hooks/useTypingEffect'
 import { FaVolumeUp, FaVolumeMute, FaDownload, FaArrowRight, FaStar } from 'react-icons/fa'
 import { useRef, useState, useEffect } from 'react'
-import arrowDown from '../assets/AssetsImages/ArrowDown.webp'
+import arrowDown from '../../assets/AssetsImages/ArrowDown.webp'
 
 // Create motion-wrapped Chakra UI components
 const MotionBox = motion.create(Box)
