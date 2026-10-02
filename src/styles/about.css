@@ -1,272 +1,499 @@
 /* ============================================================
-   ABOUT SECTION WITH OWISLANDSCAPE BACKGROUND (ALWAYS DARK STYLING)
+   ABOUT SECTION - PURE GLASSY & MINIMALIST (NO GREEN)
    ============================================================ */
 .about-section {
   position: relative;
   width: 100%;
-  min-height: 85vh;
-  display: flex;
-  align-items: center;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow: hidden;
-  background-color: #0d1117 !important;
-  padding: 80px 0;
+  padding-bottom: 90px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.about-landscape-bg {
+/* Subtle neutral ambient glow */
+.about-ambient-glow {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.about-ambient-glow-left {
+  top: 15%;
+  left: -120px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+}
+
+.about-ambient-glow-right {
+  bottom: 10%;
+  right: -120px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+}
+
+/* ============================================================
+   SPLIT LAYOUT (STANDARD PORTFOLIO MEASUREMENT & ALIGNMENT)
+   ============================================================ */
+.about-split-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 40px;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+}
+
+/* ============================================================
+   LEFT COLUMN: GLASS PHOTO CARD
+   ============================================================ */
+.about-photo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.about-photo-card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 440px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-photo-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+.about-slide-layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  overflow: hidden;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
 }
 
-.about-landscape-img {
+.about-grad-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 20%;
+  display: block;
 }
 
-.about-landscape-overlay {
+.photo-gradient-vignette {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.2) 55%,
+    rgba(10, 12, 16, 0.88) 100%
+  );
   pointer-events: none;
-  background: linear-gradient(90deg,
-      rgba(15, 23, 18, 0.94) 0%,
-      rgba(26, 36, 28, 0.85) 45%,
-      rgba(15, 23, 18, 0.4) 75%,
-      rgba(15, 23, 18, 0.12) 100%) !important;
+  z-index: 2;
 }
 
-:root[data-theme='light'] .about-landscape-overlay {
-  background: linear-gradient(90deg,
-      rgba(15, 23, 18, 0.94) 0%,
-      rgba(26, 36, 28, 0.85) 45%,
-      rgba(15, 23, 18, 0.4) 75%,
-      rgba(15, 23, 18, 0.12) 100%) !important;
-}
-
-.about-container {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding-left: clamp(20px, 4vw, 50px);
-  padding-right: clamp(20px, 4vw, 50px);
-}
-
-.about-left-text-block {
-  position: relative;
-  z-index: 10;
-  max-width: 640px;
-  width: 100%;
-  text-align: left;
-  margin-left: 0;
-  margin-right: auto;
-  color: #ffffff !important;
-}
-
-/* Eyebrow Accent Label */
-.about-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--color-muted-green);
-  box-shadow: 0 0 10px var(--color-muted-green);
-  animation: pulse-glow 2s infinite ease-in-out;
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.5;
-    transform: scale(0.85);
-  }
-}
-
-.eyebrow-text {
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--color-muted-green);
-  text-transform: uppercase;
-  font-family: 'Outfit', sans-serif;
-}
-
-/* Heading Accent Gradient */
-.about-heading {
-  font-size: 3.2rem;
-  font-weight: 800;
-  color: #ffffff !important;
-  margin-bottom: 24px;
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
-  text-align: left;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7) !important;
-}
-
-:root[data-theme='light'] .about-heading {
-  color: #ffffff !important;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7) !important;
-}
-
-.text-gradient-accent {
-  background: linear-gradient(135deg, #b8dbae 0%, var(--color-muted-green) 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-}
-
-/* Paragraph List & Icon Accents */
-.about-paragraphs-wrapper {
+/* Floating Bottom Profile Glass Card */
+.floating-chip-bottom {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.about-paragraph {
-  display: flex;
   align-items: flex-start;
-  gap: 14px;
-  font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.92) !important;
-  line-height: 1.75;
-  margin: 0;
-  font-family: 'Outfit', sans-serif;
-  text-align: left;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6) !important;
+  gap: 3px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(18, 22, 28, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  z-index: 3;
+  pointer-events: none;
 }
 
-.about-paragraph.highlight-lead {
-  font-size: 1.12rem;
-  color: #ffffff !important;
+.chip-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
-:root[data-theme='light'] .about-paragraph {
-  color: rgba(255, 255, 255, 0.92) !important;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6) !important;
-}
-
-:root[data-theme='light'] .about-paragraph.highlight-lead {
-  color: #ffffff !important;
-}
-
-.paragraph-icon {
+.chip-degree {
+  color: var(--color-muted-green);
+  font-size: 0.8rem;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 4px;
-  color: var(--color-muted-green);
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 8px rgba(98, 122, 92, 0.5));
+  gap: 7px;
+  white-space: nowrap;
 }
 
-.text-tag {
+.chip-experience-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+}
+
+.chip-experience-line .badge-sparkle-icon {
+  color: var(--color-muted-green);
+  flex-shrink: 0;
+}
+
+.chip-experience-line .badge-num {
+  font-weight: 800;
+  color: var(--color-muted-green);
+  letter-spacing: 0.5px;
+}
+
+.chip-experience-line .badge-sep {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.chip-experience-line .badge-sub {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Slideshow Indicator Dots */
+.slideshow-dots-bar {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 4;
+}
+
+.slideshow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.slideshow-dot.active {
+  width: 20px;
+  background: var(--color-muted-green);
+  box-shadow: 0 0 10px rgba(98, 122, 92, 0.5);
+}
+
+/* ============================================================
+   RIGHT COLUMN: GLASS ACCORDION CARDS (NO GREEN)
+   ============================================================ */
+.about-labels-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 440px;
+  justify-content: center;
+}
+
+/* Glass Card */
+.about-label-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 16px 22px;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-label-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.about-label-card.active-card {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Header Row */
+.label-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.label-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.label-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.about-label-card.active-card .label-icon-box {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--color-muted-green);
+}
+
+.about-label-title {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
   color: #ffffff !important;
+  letter-spacing: -0.01em;
+  margin: 0 !important;
+  display: inline-block;
+}
+
+/* Chevron indicator */
+.card-chevron-box {
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, color 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.card-chevron-box.expanded {
+  transform: rotate(180deg);
+  color: var(--color-muted-green);
+}
+
+/* ============================================================
+   GPU-ACCELERATED CSS GRID ACCORDION
+   ============================================================ */
+.about-card-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.about-card-accordion-body.is-open {
+  grid-template-rows: 1fr;
+}
+
+.about-card-accordion-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  padding-top: 0;
+}
+
+.about-card-accordion-body.is-open .about-card-accordion-inner {
+  opacity: 1;
+  transform: translateY(0);
+  padding-top: 12px;
+}
+
+/* Paragraph Content */
+.about-card-desc {
+  font-size: 0.94rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.65;
+  margin: 0 0 12px 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Highlight Text Tag (Theme Green Font) */
+.text-tag {
+  color: var(--color-muted-green) !important;
   font-weight: 700;
-  background: rgba(98, 122, 92, 0.25) !important;
-  border: 1px solid rgba(98, 122, 92, 0.45) !important;
-  padding: 2px 8px;
+  background: rgba(98, 122, 92, 0.12) !important;
+  border: 1px solid rgba(98, 122, 92, 0.25) !important;
+  padding: 1px 7px;
   border-radius: 6px;
   margin: 0 2px;
   display: inline-block;
   backdrop-filter: blur(4px);
 }
 
+/* Tags under each label */
+.label-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.label-chip {
+  font-size: 0.76rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.2px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.about-label-card.active-card .label-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Light Theme Support */
+:root[data-theme='light'] .about-photo-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='light'] .floating-chip-bottom {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='light'] .chip-name {
+  color: #111827;
+}
+
+:root[data-theme='light'] .chip-degree {
+  color: var(--color-muted-green);
+}
+
+:root[data-theme='light'] .chip-experience-line {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='light'] .chip-experience-line .badge-sparkle-icon,
+:root[data-theme='light'] .chip-experience-line .badge-num {
+  color: var(--color-muted-green);
+}
+
+:root[data-theme='light'] .chip-experience-line .badge-sub {
+  color: rgba(17, 24, 39, 0.7);
+}
+
+:root[data-theme='light'] .about-label-card {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme='light'] .about-label-card.active-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme='light'] .label-icon-box {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #111827;
+}
+
+:root[data-theme='light'] .about-label-card.active-card .label-icon-box {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme='light'] .about-label-title {
+  color: #111827 !important;
+}
+
+:root[data-theme='light'] .card-chevron-box {
+  color: rgba(17, 24, 39, 0.5);
+}
+
+:root[data-theme='light'] .card-chevron-box.expanded {
+  color: #111827;
+}
+
+:root[data-theme='light'] .about-card-desc {
+  color: rgba(17, 24, 39, 0.75);
+}
+
 :root[data-theme='light'] .text-tag {
-  color: #ffffff !important;
-  background: rgba(98, 122, 92, 0.25) !important;
-  border-color: rgba(98, 122, 92, 0.45) !important;
+  color: #111827 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-/* Sparkle Experience Badge */
-.about-experience-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(15, 23, 18, 0.7) !important;
-  border: 1px solid rgba(98, 122, 92, 0.4) !important;
-  padding: 10px 22px;
-  border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
-  margin-top: 8px;
-  transition: all 0.3s ease;
+:root[data-theme='light'] .label-chip {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: rgba(17, 24, 39, 0.75);
 }
 
-:root[data-theme='light'] .about-experience-badge {
-  background: rgba(15, 23, 18, 0.7) !important;
-  border: 1px solid rgba(98, 122, 92, 0.4) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+:root[data-theme='light'] .about-label-card.active-card .label-chip {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #111827;
 }
 
-.about-experience-badge:hover {
-  border-color: var(--color-muted-green) !important;
-  box-shadow: 0 6px 25px rgba(98, 122, 92, 0.3) !important;
-  transform: translateY(-2px);
-}
+/* ============================================================
+   RESPONSIVENESS
+   ============================================================ */
+@media (max-width: 992px) {
+  .about-split-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 
-.badge-sparkle-icon {
-  color: var(--color-muted-green);
-}
+  .about-photo-wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+  }
 
-.badge-num {
-  font-size: 0.98rem;
-  font-weight: 800;
-  color: var(--color-muted-green);
-  letter-spacing: 1px;
-}
+  .about-photo-card {
+    height: 440px;
+  }
 
-.badge-sep {
-  color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.badge-sub {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #ffffff !important;
-}
-
-:root[data-theme='light'] .badge-sub {
-  color: #ffffff !important;
-}
-
-@media (max-width: 768px) {
-  .about-section {
-    padding: 60px 0;
+  .about-labels-column {
     min-height: auto;
   }
+}
 
-  .about-left-text-block {
-    max-width: 100%;
+@media (max-width: 576px) {
+  .about-section {
+    padding-bottom: 50px;
   }
 
-  .about-heading {
-    font-size: 2.2rem;
-    margin-bottom: 14px;
-  }
-
-  .about-paragraph {
-    font-size: 0.96rem;
-    line-height: 1.65;
-  }
-
-  .about-landscape-overlay {
-    background: rgba(0, 0, 0, 0.75) !important;
+  .about-photo-card {
+    height: 360px;
   }
 }
