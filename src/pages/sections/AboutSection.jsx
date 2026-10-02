@@ -191,6 +191,7 @@ const AboutSection = () => {
               )
             })}
           </MotionBox>
+          </Box>
         </Box>
       </Box>
     </Box>
