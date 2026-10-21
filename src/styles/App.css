@@ -39,6 +39,47 @@ section[id] {
 }
 
 /* ============================================================
+   RESPONSIVE SECTION HEADINGS & PADDINGS
+   ============================================================ */
+@media (max-width: 768px) {
+  .section-content h2 {
+    font-size: 2.1rem !important;
+    margin-bottom: 38px !important;
+  }
+
+  .section-content {
+    padding: 60px 0 !important;
+  }
+
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-content h2 {
+    font-size: 1.75rem !important;
+    margin-bottom: 30px !important;
+  }
+
+  .section-content {
+    padding: 45px 0 !important;
+  }
+
+  .back-to-top {
+    bottom: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ============================================================
    BACK TO TOP BUTTON
    ============================================================ */
 .back-to-top {

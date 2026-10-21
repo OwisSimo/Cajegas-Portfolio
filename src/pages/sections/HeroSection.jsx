@@ -12,8 +12,8 @@ import {
   Circle,
 } from '@chakra-ui/react'
 import { useTypingEffect } from '../../hooks/useTypingEffect'
-import { FaVolumeUp, FaVolumeMute, FaDownload, FaArrowRight, FaStar } from 'react-icons/fa'
-import { useRef, useState, useEffect } from 'react'
+import { FaDownload, FaArrowRight, FaStar } from 'react-icons/fa'
+import { useRef, useState } from 'react'
 import arrowDown from '../../assets/AssetsImages/ArrowDown.webp'
 import '../../styles/hero.css'
 
@@ -67,67 +67,7 @@ const HeroSection = () => {
   const cvTilt = useTilt()
   const [ripples, setRipples] = useState([])
 
-  // Audio state
-  const audioRef = useRef(null)
-  const [isMuted, setIsMuted] = useState(false)
-  const isMutedRef = useRef(false)
 
-  useEffect(() => {
-    const audio = new Audio('/C418 - Subwoofer Lullaby - Minecraft Volume Alpha.mp3')
-    audio.loop = true
-    audio.volume = 0.3
-    audioRef.current = audio
-
-    const playAudio = () => {
-      if (!isMutedRef.current && audioRef.current) {
-        audioRef.current.play().then(() => {
-          setIsMuted(false)
-        }).catch(() => {})
-      }
-    }
-
-    const handleUserGesture = () => {
-      playAudio()
-      cleanup()
-    }
-
-    const cleanup = () => {
-      window.removeEventListener('click', handleUserGesture)
-      window.removeEventListener('scroll', handleUserGesture)
-      window.removeEventListener('keydown', handleUserGesture)
-      window.removeEventListener('touchstart', handleUserGesture)
-    }
-
-    // Attempt immediate autoplay
-    audio.play().then(() => {
-      setIsMuted(false)
-      isMutedRef.current = false
-    }).catch(() => {
-      // Browser blocked autoplay without user gesture; attach listeners for first interaction
-      window.addEventListener('click', handleUserGesture, { once: true, passive: true })
-      window.addEventListener('scroll', handleUserGesture, { once: true, passive: true })
-      window.addEventListener('keydown', handleUserGesture, { once: true, passive: true })
-      window.addEventListener('touchstart', handleUserGesture, { once: true, passive: true })
-    })
-
-    return () => {
-      cleanup()
-      audio.pause()
-      audioRef.current = null
-    }
-  }, [])
-
-  const toggleMusic = () => {
-    if (isMutedRef.current) {
-      audioRef.current?.play().catch(() => {})
-      setIsMuted(false)
-      isMutedRef.current = false
-    } else {
-      audioRef.current?.pause()
-      setIsMuted(true)
-      isMutedRef.current = true
-    }
-  }
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -186,33 +126,7 @@ const HeroSection = () => {
       justifyContent="center"
       w="full"
     >
-      {/* Music Toggle Floating Action Button */}
-      <MotionButton
-        className="music-toggle"
-        onClick={(e) => {
-          e.stopPropagation()
-          toggleMusic()
-        }}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.92 }}
-        title={isMuted ? 'Play music' : 'Mute music'}
-        aria-label={isMuted ? 'Play music' : 'Mute music'}
-      >
-        <MotionBox
-          className="music-icon-wrapper"
-          animate={!isMuted ? { rotate: [0, 10, -10, 0] } : { rotate: 0 }}
-          transition={{ duration: 0.5, repeat: !isMuted ? Infinity : 0, repeatDelay: 1 }}
-        >
-          {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-        </MotionBox>
-        {!isMuted && (
-          <Box as="span" className="music-bars">
-            <Box as="span" className="bar" />
-            <Box as="span" className="bar" />
-            <Box as="span" className="bar" />
-          </Box>
-        )}
-      </MotionButton>
+
 
       {/* Mouse Spotlight */}
       <MotionBox
@@ -441,6 +355,7 @@ const HeroSection = () => {
                 w={{ base: "42px", sm: "48px", md: "54px" }}
                 h="auto"
                 filter="drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6))"
+                decoding="async"
               />
             </MotionButton>
 

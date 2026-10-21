@@ -11,8 +11,8 @@
 .skills-carousel {
   display: flex;
   gap: 30px;
-  animation: scroll 60s linear infinite;
-  width: calc(300px * 33);
+  animation: scroll 45s linear infinite;
+  width: max-content;
   padding: 10px 0;
 }
 
@@ -75,14 +75,13 @@
   }
 
   100% {
-    transform: translateX(calc(-300px * 11));
+    transform: translateX(calc(-100% / 3));
   }
 }
 
 /* --- Skills Responsive --- */
 @media (max-width: 768px) {
   .skills-carousel {
-    width: calc(250px * 27);
     gap: 20px;
   }
 
@@ -98,7 +97,6 @@
 
 @media (max-width: 480px) {
   .skills-carousel {
-    width: calc(200px * 27);
     gap: 15px;
   }
 

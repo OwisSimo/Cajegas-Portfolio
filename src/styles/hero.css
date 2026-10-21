@@ -342,74 +342,6 @@
     0 0 20px rgba(98, 122, 92, 0.25);
 }
 
-/* --- Music Toggle --- */
-.music-toggle {
-  position: fixed;
-  top: 90px;
-  right: 24px;
-  z-index: 10;
-  background: rgba(98, 122, 92, 0.2);
-  border: 1px solid rgba(98, 122, 92, 0.4);
-  color: var(--color-off-white);
-  border-radius: 999px;
-  padding: 10px 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1rem;
-  backdrop-filter: blur(6px);
-  transition: background 0.3s ease;
-}
-
-.music-toggle:hover {
-  background: rgba(98, 122, 92, 0.35);
-}
-
-.music-icon-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.music-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 14px;
-}
-
-.music-bars .bar {
-  width: 3px;
-  background: var(--color-off-white);
-  border-radius: 2px;
-  animation: bar-bounce 0.8s ease-in-out infinite;
-}
-
-.music-bars .bar:nth-child(1) {
-  height: 6px;
-  animation-delay: 0s;
-}
-
-.music-bars .bar:nth-child(2) {
-  height: 12px;
-  animation-delay: 0.2s;
-}
-
-.music-bars .bar:nth-child(3) {
-  height: 8px;
-  animation-delay: 0.4s;
-}
-
-@keyframes bar-bounce {
-  0%,
-  100% {
-    transform: scaleY(1);
-  }
-
-  50% {
-    transform: scaleY(1.8);
-  }
-}
 
 /* --- Scroll Indicator --- */
 .scroll-indicator {
@@ -720,20 +652,38 @@
     bottom: 80px;
   }
 
-  .music-toggle {
-    top: 80px;
-    right: 16px;
-  }
 }
 
 @media (max-width: 480px) {
   .hero-name {
-    font-size: 2rem;
+    font-size: 2.2rem !important;
+    min-height: 55px !important;
+    margin-bottom: 16px !important;
   }
 
-  .profile-container {
-    width: 250px;
-    height: 250px;
+  .hero-greeting {
+    font-size: 1.35rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hero-tagline {
+    font-size: 0.96rem !important;
+    padding: 0 8px;
+    margin-bottom: 28px !important;
+  }
+
+  .hero-buttons {
+    width: 100%;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 0 10px;
+  }
+
+  .hero-buttons > button,
+  .hero-buttons .work-button,
+  .hero-buttons .cv-button {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }
 

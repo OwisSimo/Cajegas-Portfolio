@@ -1,241 +1,861 @@
 /* ============================================================
-   CERTIFICATES SECTION (Small Grid Card UI matching Projects)
+   CERTIFICATES SECTION (Verified Credentials Vault Design)
    ============================================================ */
-.certificates-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  max-width: 1200px;
-  margin: 40px auto 0;
-}
-
-.cert-mini-card {
-  position: relative;
-  height: 240px;
-  border-radius: 18px;
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border: 1px solid var(--border-color);
-  background: var(--bg-card);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cert-mini-card:hover {
-  border-color: var(--color-muted-green);
-  box-shadow: 0 12px 30px var(--shadow), 0 0 25px rgba(98, 122, 92, 0.3);
-}
-
-.cert-card-banner {
-  position: absolute;
-  inset: 0;
+.certificates {
   width: 100%;
-  height: 100%;
-  z-index: 1;
-  background: var(--bg-card);
-}
-
-.cert-card-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  transition: transform 0.4s ease;
-}
-
-.cert-mini-card:hover .cert-card-banner img {
-  transform: scale(1.05);
-}
-
-.cert-card-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.35) 40%,
-      rgba(0, 0, 0, 0.85) 80%,
-      rgba(0, 0, 0, 0.95) 100%);
-  pointer-events: none;
-}
-
-:root[data-theme='light'] .cert-card-gradient {
-  background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.25) 40%,
-      rgba(255, 255, 255, 0.85) 80%,
-      rgba(255, 255, 255, 0.96) 100%);
-}
-
-.cert-cat-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 3;
-  background: rgba(0, 0, 0, 0.75);
-  color: #ffffff;
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 999px;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.cert-card-overlay {
   position: relative;
-  z-index: 2;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  text-align: left;
+  background-color: var(--bg-primary);
 }
 
-.cert-card-overlay h4 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 8px;
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+.certificates .section-content {
+  padding: 80px 0 90px;
+  text-align: center;
 }
 
-:root[data-theme='light'] .cert-card-overlay h4 {
-  color: var(--text-primary);
-  text-shadow: none;
-}
-
-.cert-meta-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.cert-badge-sm {
-  background: rgba(98, 122, 92, 0.25);
-  border: 1px solid rgba(98, 122, 92, 0.5);
-  color: var(--color-muted-green);
-  padding: 3px 10px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  backdrop-filter: blur(4px);
-}
-
-.cert-description {
-  font-size: 0.95rem;
+.certificates-subheading {
+  font-size: 1.05rem;
   color: var(--text-secondary);
-  line-height: 1.7;
-  margin: 0;
-  text-align: justify;
-  flex-grow: 1;
+  font-family: 'Outfit', sans-serif;
+  margin-top: 10px;
+  margin-bottom: 28px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.cert-link {
-  display: inline-flex;
+/* ============================================================
+   METRICS & CREDENTIALS STATS BAR
+   ============================================================ */
+.vault-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto 36px;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+:root[data-theme='light'] .vault-stats-bar {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.vault-stat-item {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--color-muted-green);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  margin-top: auto;
+  gap: 14px;
+  padding: 8px 12px;
+  text-align: left;
+  border-right: 1px solid var(--border-color);
 }
 
-.cert-link:hover {
-  color: var(--color-off-white);
-  gap: 12px;
+.vault-stat-item:last-child {
+  border-right: none;
 }
 
-/* --- Certificate Modal --- */
-.cert-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
+.vault-stat-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  font-size: 1.15rem;
+  background: rgba(98, 122, 92, 0.15);
+  color: var(--color-muted-green);
+  border: 1px solid rgba(98, 122, 92, 0.3);
+  flex-shrink: 0;
+}
+
+.vault-stat-num {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.vault-stat-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   FILTER PILLS TABS
+   ============================================================ */
+.vault-filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.vault-filter-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vault-filter-btn:hover {
+  border-color: var(--color-muted-green);
+  color: var(--color-muted-green);
+}
+
+.vault-filter-btn.active {
+  border-color: transparent;
+}
+
+.vault-filter-active-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-muted-green);
+  border-radius: 9999px;
+  z-index: 1;
+  box-shadow: 0 4px 14px rgba(98, 122, 92, 0.4);
+}
+
+.vault-filter-label {
+  position: relative;
+  z-index: 2;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.vault-filter-btn.active .vault-filter-label {
+  color: #0b0f0b;
+}
+
+.vault-filter-badge {
+  position: relative;
+  z-index: 2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.vault-filter-btn.active .vault-filter-badge {
+  background: rgba(0, 0, 0, 0.2);
+  color: #0b0f0b;
+}
+
+/* ============================================================
+   VAULT CREDENTIALS GRID
+   ============================================================ */
+.vault-credentials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Individual Vault Card */
+.cert-vault-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+:root[data-theme='light'] .cert-vault-card {
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+.cert-vault-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-muted-green);
+  box-shadow: 0 18px 40px var(--shadow), 0 0 25px rgba(98, 122, 92, 0.25);
+}
+
+/* Document Matting Frame (Museum / Archive Style) */
+.cert-doc-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #0f1311;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root[data-theme='light'] .cert-doc-frame {
+  background: #f1f5f0;
+}
+
+.cert-doc-matting {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root[data-theme='light'] .cert-doc-matting {
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cert-doc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transition: transform 0.45s ease;
+  display: block;
+}
+
+.cert-vault-card:hover .cert-doc-img {
+  transform: scale(1.06);
+}
+
+/* Floating Corner Badges */
+.cert-issuer-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  background: rgba(11, 15, 11, 0.85);
+  color: #e5ece3;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme='light'] .cert-issuer-badge {
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a2218;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cert-verified-pill {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  background: rgba(26, 46, 23, 0.9);
+  color: #72e06a;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(114, 224, 106, 0.35);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cert-verified-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #72e06a;
+  box-shadow: 0 0 8px #72e06a;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Hover Quick Inspect Overlay */
+.cert-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 15, 11, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 4;
+}
+
+.cert-vault-card:hover .cert-hover-overlay {
+  opacity: 1;
+}
+
+.cert-inspect-chip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0b0f0b;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(6px);
+  transition: transform 0.25s ease;
+}
+
+.cert-vault-card:hover .cert-inspect-chip {
+  transform: translateY(0);
+}
+
+/* Card Body Information */
+.cert-card-body {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cert-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cert-date-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--color-muted-green);
+  font-weight: 600;
+}
+
+.cert-id-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.cert-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.cert-card-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Skills Chips */
+.cert-skill-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.cert-skill-chip {
+  background: rgba(98, 122, 92, 0.12);
+  border: 1px solid rgba(98, 122, 92, 0.3);
+  color: var(--color-muted-green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+:root[data-theme='light'] .cert-skill-chip {
+  background: rgba(98, 122, 92, 0.15);
+  border-color: rgba(98, 122, 92, 0.35);
+}
+
+/* Card Action Footer Link */
+.cert-card-action {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-muted-green);
+  transition: color 0.2s ease;
+}
+
+.cert-vault-card:hover .cert-card-action {
+  color: var(--color-off-white);
+}
+
+:root[data-theme='light'] .cert-vault-card:hover .cert-card-action {
+  color: #1a2218;
+}
+
+/* ============================================================
+   LIGHTBOX FULL-SCREEN MODAL
+   ============================================================ */
+.vault-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 6, 0.88);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
   padding: 20px;
 }
 
-.cert-modal {
-  background: var(--modal-bg);
+.vault-modal-container {
+  background: var(--bg-card);
   border: 1px solid rgba(98, 122, 92, 0.4);
-  border-radius: 20px;
-  backdrop-filter: blur(20px);
-  max-width: 580px;
+  border-radius: 22px;
+  max-width: 860px;
   width: 100%;
+  max-height: 94vh;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 0 40px rgba(98, 122, 92, 0.3), 0 20px 60px var(--shadow);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(98, 122, 92, 0.25);
+  display: flex;
+  flex-direction: column;
 }
 
-.cert-modal-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  background-color: #fff;
+:root[data-theme='light'] .vault-modal-container {
+  background: #ffffff;
+  border-color: rgba(98, 122, 92, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
 }
 
-.cert-modal-info {
-  padding: 20px 24px 24px;
+/* Modal Header Bar */
+.vault-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(18, 22, 28, 0.95);
+  border-bottom: 1px solid var(--border-color);
 }
 
-.cert-modal-issuer {
-  font-size: 0.8rem;
-  color: var(--color-muted-green);
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+:root[data-theme='light'] .vault-modal-header {
+  background: #f8faf8;
 }
 
-.cert-modal-title {
-  font-size: 1.4rem;
+.vault-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vault-modal-shield {
+  color: #72e06a;
+  font-size: 1.1rem;
+}
+
+.vault-modal-heading-text {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vault-modal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vault-modal-counter {
   font-family: 'JetBrains Mono', monospace;
-}
-
-.cert-modal-desc {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin: 0;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
 }
 
-.cert-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(98, 122, 92, 0.2);
-  border: 1px solid rgba(98, 122, 92, 0.4);
+.vault-modal-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.85rem;
   transition: all 0.2s ease;
+  font-size: 0.85rem;
 }
 
-.cert-modal-close:hover {
-  background: rgba(98, 122, 92, 0.6);
+.vault-modal-close-btn:hover {
+  background: rgba(220, 53, 69, 0.8);
+  color: #ffffff;
+  border-color: rgba(220, 53, 69, 0.8);
 }
 
-/* --- Certificates Responsive --- */
-@media (max-width: 768px) {
-  .certificates-grid {
+/* Modal Document Stage */
+.vault-modal-stage {
+  position: relative;
+  background: #090c0a;
+  padding: 24px 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+:root[data-theme='light'] .vault-modal-stage {
+  background: #eaeaea;
+}
+
+.vault-modal-doc-wrapper {
+  max-width: 100%;
+  max-height: 52vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #ffffff;
+}
+
+.vault-modal-doc-img {
+  max-width: 100%;
+  max-height: 52vh;
+  object-fit: contain;
+  display: block;
+}
+
+/* Navigation Arrows on Modal Sides */
+.vault-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(18, 22, 28, 0.75);
+  border: 1px solid rgba(98, 122, 92, 0.35);
+  color: var(--text-primary);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  z-index: 10;
+  font-size: 0.95rem;
+}
+
+:root[data-theme='light'] .vault-nav-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.vault-nav-btn:hover {
+  background: var(--color-muted-green);
+  color: #0b0f0b;
+  box-shadow: 0 0 15px rgba(98, 122, 92, 0.6);
+}
+
+.vault-nav-prev {
+  left: 14px;
+}
+
+.vault-nav-next {
+  right: 14px;
+}
+
+/* Modal Bottom Drawer / Info */
+.vault-modal-info {
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vault-modal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vault-modal-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.vault-modal-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--color-muted-green);
+  font-weight: 600;
+}
+
+.vault-modal-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.vault-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-color);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.vault-modal-skills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+@media (max-width: 1080px) {
+  .vault-credentials-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .vault-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vault-stat-item:nth-child(2) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .vault-credentials-grid {
     grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+
+  .vault-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .vault-stat-item {
+    border-right: none;
+    border-bottom: none;
+    padding: 6px 8px;
+    gap: 10px;
+  }
+
+  .vault-stat-icon-box {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+    border-radius: 9px;
+  }
+
+  .vault-stat-num {
+    font-size: 1.05rem;
+  }
+
+  .vault-stat-label {
+    font-size: 0.72rem;
+  }
+
+  .vault-modal-stage {
+    padding: 16px 40px;
+  }
+
+  .vault-nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+
+  .vault-nav-prev {
+    left: 6px;
+  }
+
+  .vault-nav-next {
+    right: 6px;
+  }
+}
+
+@media (max-width: 520px) {
+  .vault-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px 8px;
+  }
+
+  .vault-stat-item {
+    padding: 4px;
+    gap: 8px;
+  }
+
+  .vault-stat-num {
+    font-size: 0.92rem;
+  }
+
+  .vault-stat-label {
+    font-size: 0.65rem;
+  }
+
+  .vault-filter-container {
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .vault-filter-btn {
+    padding: 6px 12px;
+  }
+
+  .vault-filter-label {
+    font-size: 0.78rem;
+  }
+
+  .vault-filter-badge {
+    font-size: 0.68rem;
+    padding: 1px 5px;
+  }
+
+  .cert-doc-frame {
+    padding: 8px;
+  }
+
+  .cert-card-body {
+    padding: 14px 16px;
+  }
+
+  .cert-card-title {
+    font-size: 1.1rem;
+  }
+
+  .cert-card-desc {
+    font-size: 0.82rem;
+  }
+
+  .vault-modal-overlay {
+    padding: 10px;
+  }
+
+  .vault-modal-container {
+    max-height: 96vh;
+    border-radius: 16px;
+  }
+
+  .vault-modal-header {
+    padding: 12px 14px;
+  }
+
+  .vault-modal-heading-text {
+    font-size: 0.82rem;
+  }
+
+  .vault-modal-stage {
+    padding: 12px 34px;
+    min-height: 220px;
+  }
+
+  .vault-modal-info {
+    padding: 14px 16px;
+  }
+
+  .vault-modal-title {
+    font-size: 1.05rem;
+  }
+
+  .vault-modal-meta {
+    font-size: 0.72rem;
+  }
+
+  .vault-modal-desc {
+    font-size: 0.8rem;
+  }
+
+  .vault-modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 }

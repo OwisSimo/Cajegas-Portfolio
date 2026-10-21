@@ -15,6 +15,30 @@ import {
 } from 'react-icons/fa'
 import '../../styles/skills.css'
 
+// Official Bubble.io vector mark (.b with signature blue dot)
+const SiBubble = (props) => (
+  <svg
+    stroke="currentColor"
+    fill="currentColor"
+    strokeWidth="0"
+    viewBox="0 0 100 100"
+    height="1em"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    {/* Signature blue dot */}
+    <circle cx="18" cy="73" r="7" fill="#0066ff" />
+    {/* Geometric 'b' character */}
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M 39 12 h 10 v 28 A 25 25 0 1 1 49 80 h -10 Z M 64 45 A 15 15 0 1 0 64 75 A 15 15 0 1 0 64 45 Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
 const skills = [
   { name: 'HTML5', icon: FaHtml5 },
   { name: 'CSS3', icon: FaCss3Alt },
@@ -26,6 +50,7 @@ const skills = [
   { name: 'Vite', icon: FaBolt },
   { name: 'Figma', icon: FaFigma },
   { name: 'Laravel', icon: FaLaravel },
+  { name: 'Bubble.io', icon: SiBubble },
 ]
 
 const MotionBox = motion.create(Box)

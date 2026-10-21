@@ -7,6 +7,8 @@ const LoadingScreen = ({ onComplete }) => {
 
   useEffect(() => {
     let currentProgress = 0
+    let timeoutId = null
+
     // Dynamic progress ticking simulating resources loading
     const interval = setInterval(() => {
       const remaining = 100 - currentProgress
@@ -26,14 +28,16 @@ const LoadingScreen = ({ onComplete }) => {
       if (currentProgress >= 100) {
         clearInterval(interval)
         // Keep screen visible for a moment at 100%
-        const delay = setTimeout(() => {
+        timeoutId = setTimeout(() => {
           onComplete()
         }, 500)
-        return () => clearTimeout(delay)
       }
     }, 80)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      if (timeoutId) clearTimeout(timeoutId)
+    }
   }, [onComplete])
 
   // Format progress to always show 3 characters (e.g. 000, 045, 100)

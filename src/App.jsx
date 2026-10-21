@@ -1,19 +1,21 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/layout/Navbar'
 import HeroSection from './pages/sections/HeroSection'
 import AboutSection from './pages/sections/AboutSection'
 import SkillsSection from './pages/sections/SkillsSection'
-import ProjectsAndExperience from './pages/sections/ProjectsAndExperience'
+import ProjectsSection from './pages/sections/ProjectsSection'
+import ExperienceSection from './pages/sections/ExperienceSection'
 import CertificatesSection from './pages/sections/CertificatesSection'
 import ContactSection from './pages/sections/ContactSection'
 import BackToTop from './components/ui/BackToTop'
 import Footer from './components/layout/Footer'
-import ComingSoon from './components/common/ComingSoon'
 import LoadingScreen from './components/common/LoadingScreen'
 import './styles/App.css'
+
+const ComingSoon = lazy(() => import('./components/common/ComingSoon'))
 
 const Home = () => (
   <div className="app">
@@ -21,7 +23,8 @@ const Home = () => (
     <HeroSection />
     <AboutSection />
     <SkillsSection />
-    <ProjectsAndExperience />
+    <ProjectsSection />
+    <ExperienceSection />
     <CertificatesSection />
     <ContactSection />
     <BackToTop />
@@ -41,7 +44,14 @@ function App() {
           <BrowserRouter key="app-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route
+                path="/coming-soon"
+                element={
+                  <Suspense fallback={null}>
+                    <ComingSoon />
+                  </Suspense>
+                }
+              />
             </Routes>
           </BrowserRouter>
         )}

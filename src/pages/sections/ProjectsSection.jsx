@@ -1,8 +1,19 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Heading, Text, Image, SimpleGrid } from '@chakra-ui/react'
-import { FaGithub, FaExternalLinkAlt, FaCode, FaLaptopCode, FaMobileAlt, FaDesktop, FaGooglePlay, FaApple } from 'react-icons/fa'
+import { Box, Heading, Text, Image } from '@chakra-ui/react'
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaCode,
+  FaLaptopCode,
+  FaMobileAlt,
+  FaDesktop,
+  FaGooglePlay,
+  FaApple,
+  FaChevronRight,
+  FaGlobe
+} from 'react-icons/fa'
 import PawfectCut from '../../assets/projects/PawfectCut.webp'
 import RainbowLoop from '../../assets/projects/RainbowLoop.webp'
 import BookQuest from '../../assets/projects/BookQuest.webp'
@@ -77,11 +88,11 @@ const projects = [
 
 const MotionBox = motion.create(Box)
 const MotionHeading = motion.create(Heading)
-const MotionText = motion.create(Text)
 
 const filterCategories = ['All', 'Web Apps', 'Mobile', 'Desktop']
 
-const ProjectsSection = ({ x, filter, setFilter }) => {
+const ProjectsSection = () => {
+  const [filter, setFilter] = useState('All')
 
   // Filter projects by category
   const filteredProjects = projects.filter((proj) => {
@@ -92,17 +103,52 @@ const ProjectsSection = ({ x, filter, setFilter }) => {
     return true
   })
 
-  return (
-    <Box className="projects-section-wrapper" py="80px" bg="var(--bg-primary)">
-      {/* Section Header */}
-      <Box className="container">
-        <Box className="section-content" style={{ paddingBottom: '30px' }}>
-          <MotionHeading as="h2">Featured Projects</MotionHeading>
-          <MotionText className="projects-subheading" style={{ marginTop: '25px', marginBottom: '20px' }}>
-            A curated selection of my digital creations and designs
-          </MotionText>
+  // Selected project state for the interactive inspector
+  const [selectedProject, setSelectedProject] = useState(projects[0])
 
-          {/* Filter Pills */}
+  // Sync selected project if it was filtered out
+  useEffect(() => {
+    const isStillVisible = filteredProjects.some((p) => p.id === selectedProject?.id)
+    if (!isStillVisible && filteredProjects.length > 0) {
+      setSelectedProject(filteredProjects[0])
+    }
+  }, [filter, filteredProjects, selectedProject])
+
+  const activeProj = selectedProject || filteredProjects[0] || projects[0]
+  const InspectorIcon = activeProj.icon || FaCode
+
+  // Derive a readable URL for the inspector's address bar
+  const getDisplayUrl = (proj) => {
+    if (proj.links.demo) return proj.links.demo.replace(/^https?:\/\//, '')
+    if (proj.links.playStore) return 'play.google.com/store/apps/manpro'
+    if (proj.links.github && proj.links.github.startsWith('http')) {
+      return proj.links.github.replace(/^https?:\/\//, '')
+    }
+    return `cajegas.dev/projects/${proj.id}`
+  }
+
+  // Derive status label
+  const getStatusLabel = (proj) => {
+    if (proj.links.demo) return 'Live Production'
+    if (proj.links.playStore || proj.links.appStore) return 'Production App'
+    return 'Source Repository'
+  }
+
+  return (
+    <Box as="section" id="projects" className="projects-section section-zebra-dark">
+      <Box className="container">
+        <Box className="section-content">
+          <MotionHeading
+            as="h2"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            Featured Projects
+          </MotionHeading>
+
+          {/* Category Filter Pills */}
           <Box className="projects-filter-container">
             {filterCategories.map((cat) => {
               const isActive = filter === cat
@@ -125,129 +171,190 @@ const ProjectsSection = ({ x, filter, setFilter }) => {
               )
             })}
           </Box>
-        </Box>
-      </Box>
 
-      {/* Horizontal Scrolling Gallery */}
-      <Box style={{ overflow: 'visible', width: '100%', marginTop: '30px' }} className="projects-track-outer">
-        <MotionBox
-          style={{ x }}
-          display="flex"
-          gap="32px"
-          pl="12vw"
-          pr="12vw"
-          width="max-content"
-          className="projects-track-inner"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((proj) => {
-              const CardIcon = proj.icon || FaCode
-              return (
-                <MotionBox
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  key={proj.id}
-                  className="scroll-project-card"
-                  style={{
-                    width: '380px',
-                    flexShrink: 0,
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  {/* Card Media Header */}
-                  <Box className="card-media-box">
-                    {proj.image ? (
-                      <Image src={proj.image} alt={proj.title} className="project-card-image" />
-                    ) : (
-                      <Box className="project-card-placeholder">
-                        <Box className="placeholder-pattern" />
-                        <Box as={CardIcon} className="placeholder-center-icon" />
-                        <Box as="span" className="placeholder-watermark-text">{proj.title}</Box>
+          {/* Interactive Split-View Studio */}
+          <Box className="projects-studio-layout">
+            {/* Left Column: Interactive Project Selector List */}
+            <Box className="studio-selector-panel">
+              <Box className="studio-selector-header">
+                <span>PROJECT DIRECTORY</span>
+                <span className="studio-count-badge">
+                  {filteredProjects.length} {filteredProjects.length === 1 ? 'item' : 'items'}
+                </span>
+              </Box>
+
+              <Box className="studio-project-list">
+                {filteredProjects.map((proj, idx) => {
+                  const isSelected = activeProj.id === proj.id
+                  const formattedIdx = String(idx + 1).padStart(2, '0')
+
+                  return (
+                    <Box
+                      as="button"
+                      key={proj.id}
+                      onClick={() => setSelectedProject(proj)}
+                      className={`studio-project-item ${isSelected ? 'active' : ''}`}
+                    >
+                      {isSelected && (
+                        <MotionBox
+                          className="studio-active-glow"
+                          layoutId="activeStudioProjectGlow"
+                          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        />
+                      )}
+
+                      <span className="studio-project-num">{formattedIdx}</span>
+
+                      <Box className="studio-project-info">
+                        <Text className="studio-project-name">{proj.title}</Text>
+                        <Box className="studio-project-meta">
+                          <span className="studio-project-category">{proj.category}</span>
+                          <span>·</span>
+                          <span>{proj.technologies.slice(0, 2).join(', ')}</span>
+                        </Box>
                       </Box>
-                    )}
-                    <Box className="card-media-overlay" />
-                    <Box as="span" className="card-category-badge">{proj.category}</Box>
+
+                      <FaChevronRight className="studio-project-chevron" />
+                    </Box>
+                  )
+                })}
+              </Box>
+            </Box>
+
+            {/* Right Column: Immersive Device Inspector */}
+            <Box className="studio-inspector-panel">
+              <AnimatePresence mode="wait">
+                <MotionBox
+                  key={activeProj.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                  style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+                >
+                  {/* Top Viewport Header */}
+                  <Box className="inspector-top-chrome">
+                    <Box className="inspector-window-dots">
+                      <span className="inspector-window-dot dot-red" />
+                      <span className="inspector-window-dot dot-yellow" />
+                      <span className="inspector-window-dot dot-green" />
+                    </Box>
+
+                    <Box className="inspector-url-bar">
+                      <FaGlobe style={{ fontSize: '0.72rem', flexShrink: 0 }} />
+                      <span className="inspector-url-text">{getDisplayUrl(activeProj)}</span>
+                    </Box>
+
+                    <Box className="inspector-status-badge">
+                      <span className="inspector-status-dot" />
+                      <span>{getStatusLabel(activeProj)}</span>
+                    </Box>
                   </Box>
 
-                  {/* Card Content Body */}
-                  <Box className="card-content-body" display="flex" flexDirection="column" flex="1">
-                    <Heading as="h3">{proj.title}</Heading>
-                    <Text mb="20px" flex="1">{proj.description}</Text>
+                  {/* Media Viewport Canvas */}
+                  <Box className="inspector-media-box">
+                    {activeProj.image ? (
+                      <Image
+                        src={activeProj.image}
+                        alt={activeProj.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="inspector-media-img"
+                      />
+                    ) : (
+                      <Box className="inspector-placeholder">
+                        <Box className="inspector-placeholder-pattern" />
+                        <Box as={InspectorIcon} className="inspector-placeholder-icon" />
+                        <span className="inspector-placeholder-title">{activeProj.title}</span>
+                        <span className="inspector-placeholder-tag">System Architecture</span>
+                      </Box>
+                    )}
+                  </Box>
 
-                    <Box className="tech-tags-list" mt="auto">
-                      {proj.technologies.map((tech) => (
-                        <Box as="span" key={tech} className="tech-card-badge">
+                  {/* Inspector Body Info */}
+                  <Box className="inspector-body">
+                    <Box className="inspector-title-row">
+                      <Heading as="h3" className="inspector-title">{activeProj.title}</Heading>
+                      <Box as="span" className="inspector-category-badge">{activeProj.category}</Box>
+                    </Box>
+
+                    <Text className="inspector-desc">{activeProj.description}</Text>
+
+                    {/* Tech Badges */}
+                    <Box className="inspector-tech-tags">
+                      {activeProj.technologies.map((tech) => (
+                        <Box as="span" key={tech} className="inspector-tech-chip">
                           {tech}
                         </Box>
                       ))}
                     </Box>
 
-                    <Box className="project-action-links">
-                      {proj.links.github && (
-                        proj.links.github.startsWith('http') ? (
+                    {/* Actions CTAs */}
+                    <Box className="inspector-actions">
+                      {activeProj.links.demo && (
+                        <Box
+                          as="a"
+                          href={activeProj.links.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inspector-btn btn-primary"
+                        >
+                          <FaExternalLinkAlt /> <span>Live Demo</span>
+                        </Box>
+                      )}
+
+                      {activeProj.links.playStore && (
+                        <Box
+                          as="a"
+                          href={activeProj.links.playStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inspector-btn btn-primary"
+                        >
+                          <FaGooglePlay /> <span>Google Play</span>
+                        </Box>
+                      )}
+
+                      {activeProj.links.appStore && (
+                        <Box
+                          as="a"
+                          href={activeProj.links.appStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inspector-btn btn-primary"
+                        >
+                          <FaApple /> <span>App Store</span>
+                        </Box>
+                      )}
+
+                      {activeProj.links.github && (
+                        activeProj.links.github.startsWith('http') ? (
                           <Box
                             as="a"
-                            href={proj.links.github}
+                            href={activeProj.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="action-link-btn code-btn"
+                            className="inspector-btn btn-secondary"
                           >
-                            <FaGithub /> <Box as="span">Code</Box>
+                            <FaGithub /> <span>Source Code</span>
                           </Box>
                         ) : (
-                          <Box as={Link} to={proj.links.github} className="action-link-btn code-btn">
-                            <FaGithub /> <Box as="span">Code</Box>
+                          <Box
+                            as={Link}
+                            to={activeProj.links.github}
+                            className="inspector-btn btn-secondary"
+                          >
+                            <FaGithub /> <span>Source Code</span>
                           </Box>
                         )
-                      )}
-
-                      {proj.links.demo && (
-                        <Box
-                          as="a"
-                          href={proj.links.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="action-link-btn demo-btn"
-                        >
-                          <FaExternalLinkAlt /> <Box as="span">Live Demo</Box>
-                        </Box>
-                      )}
-
-                      {proj.links.playStore && (
-                        <Box
-                          as="a"
-                          href={proj.links.playStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="action-link-btn demo-btn"
-                        >
-                          <FaGooglePlay /> <Box as="span">Play Store</Box>
-                        </Box>
-                      )}
-
-                      {proj.links.appStore && (
-                        <Box
-                          as="a"
-                          href={proj.links.appStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="action-link-btn demo-btn"
-                        >
-                          <FaApple /> <Box as="span">App Store</Box>
-                        </Box>
                       )}
                     </Box>
                   </Box>
                 </MotionBox>
-              )
-            })}
-          </AnimatePresence>
-        </MotionBox>
+              </AnimatePresence>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   )

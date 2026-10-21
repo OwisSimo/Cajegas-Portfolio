@@ -1,6 +1,15 @@
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react'
-import { FaCertificate, FaExternalLinkAlt, FaTimes } from 'react-icons/fa'
-import { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+import {
+  FaCertificate,
+  FaCheckCircle,
+  FaSearchPlus,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
+  FaShieldAlt,
+  FaAward,
+} from 'react-icons/fa'
+import { useState, useEffect, useCallback } from 'react'
 import { Box, Heading, Text, Image } from '@chakra-ui/react'
 
 import NetworkSecurityCert from '../../assets/Certificates/Network-Security.webp'
@@ -16,220 +25,442 @@ import '../../styles/certificates.css'
 
 const certificates = [
   {
+    id: 'net-sec',
     title: 'Network Security',
     issuer: 'Certiport',
+    category: 'certiport',
+    categoryLabel: 'Certiport IT Specialist',
     date: 'July 2025',
+    credentialId: 'CP-NETSEC-2025',
     description: 'Certified in network security fundamentals covering threat detection, protection strategies, and secure network design.',
+    skills: ['Cybersecurity', 'Network Defense', 'Threat Analysis', 'Protocols'],
     image: NetworkSecurityCert,
-    link: '#'
   },
   {
+    id: 'html-css',
     title: 'HTML and CSS',
     issuer: 'Certiport',
+    category: 'certiport',
+    categoryLabel: 'Certiport IT Specialist',
     date: 'May 2024',
+    credentialId: 'CP-HTMLCSS-2024',
     description: 'Certified in building structured, accessible, and visually styled web pages using modern HTML5 and CSS3 standards.',
+    skills: ['HTML5', 'CSS3', 'Responsive Design', 'Web Accessibility'],
     image: HtmlCssCert,
-    link: '#'
   },
   {
+    id: 'databases',
     title: 'Databases',
     issuer: 'Certiport',
+    category: 'certiport',
+    categoryLabel: 'Certiport IT Specialist',
     date: 'February 2024',
+    credentialId: 'CP-DB-2024',
     description: 'Certified in database design, querying, and management including relational database concepts and SQL operations.',
+    skills: ['SQL', 'Relational DB', 'Data Modeling', 'Database Normalization'],
     image: DatabasesCert,
-    link: '#'
   },
   {
+    id: 'git-github',
     title: 'Version Control with Git & GitHub',
     issuer: 'Academic Training',
+    category: 'technical',
+    categoryLabel: 'Technical Training',
     date: 'July 2026',
+    credentialId: 'AT-GIT-2026',
     description: 'Certified in version control fundamentals, repository management, branching, pull requests, and collaborative developer workflows.',
+    skills: ['Git', 'GitHub', 'Branching & Merging', 'Team Collaboration'],
     image: GithubCert,
-    link: '#'
   },
   {
+    id: 'js-essentials',
     title: 'JavaScript Essentials',
     issuer: 'Academic Training',
+    category: 'technical',
+    categoryLabel: 'Technical Training',
     date: 'July 2026',
+    credentialId: 'AT-JS-2026',
     description: 'Certified in JavaScript essentials including data types, operators, control structures, functions, and object-oriented programming concepts.',
+    skills: ['JavaScript ES6+', 'DOM APIs', 'Asynchronous JS', 'OOP'],
     image: JavascriptCert,
-    link: '#'
   },
   {
+    id: 'innovative-culture',
     title: 'Innovative Culture in the Office',
     issuer: 'Seminar Series',
+    category: 'seminar',
+    categoryLabel: 'Professional Seminar',
     date: 'April 2026',
+    credentialId: 'SS-INNOV-2026',
     description: 'Seminar completion on fostering innovation, creative problem-solving, and building modern workflow structures in the office.',
+    skills: ['Creative Problem Solving', 'Modern Workflow', 'Agile Mindset'],
     image: InnovativeCultureCert,
-    link: '#'
   },
   {
+    id: 'office-etiquette',
     title: 'Office Etiquette & Work Ethics',
     issuer: 'Seminar Series',
+    category: 'seminar',
+    categoryLabel: 'Professional Seminar',
     date: 'April 2026',
+    credentialId: 'SS-ETIQ-2026',
     description: 'Seminar completion on corporate etiquette, professional standards, work ethics, and collaborative team communication.',
+    skills: ['Professional Standards', 'Corporate Ethics', 'Communication'],
     image: OfficeEtiquetteCert,
-    link: '#'
   },
   {
+    id: 'gender-sensitivity',
     title: 'Gender Sensitivity',
     issuer: 'Seminar Series',
+    category: 'seminar',
+    categoryLabel: 'Professional Seminar',
     date: 'April 2026',
+    credentialId: 'SS-GEND-2026',
     description: 'Seminar completion on gender awareness, inclusivity, and maintaining a respectful and diverse workspace environment.',
+    skills: ['Workplace Inclusivity', 'Diversity Awareness', 'Team Respect'],
     image: GenderSensitivityCert,
-    link: '#'
   },
   {
+    id: 'attendance',
     title: 'Seminar Attendance & Completion',
     issuer: 'Seminar Series',
+    category: 'seminar',
+    categoryLabel: 'Professional Seminar',
     date: 'April 2026',
+    credentialId: 'SS-ATTEND-2026',
     description: 'Seminar completion and participation certificate demonstrating professional development and career readiness.',
+    skills: ['Professional Development', 'Career Readiness', 'Lifelong Learning'],
     image: AttendanceCert,
-    link: '#'
   }
+]
+
+const filterCategories = [
+  { key: 'all', label: 'All Credentials', count: 9 },
+  { key: 'certiport', label: 'Certiport IT Specialist', count: 3 },
+  { key: 'technical', label: 'Developer Essentials', count: 2 },
+  { key: 'seminar', label: 'Seminars & Workshops', count: 4 },
 ]
 
 const MotionBox = motion.create(Box)
 const MotionHeading = motion.create(Heading)
-const MotionText = motion.create(Text)
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 }
-  }
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' }
-  }
-}
-
-const TiltCertCard = ({ cert, onSelect }) => {
-  const tiltX = useMotionValue(0)
-  const tiltY = useMotionValue(0)
-  const springTiltX = useSpring(tiltX, { stiffness: 300, damping: 20 })
-  const springTiltY = useSpring(tiltY, { stiffness: 300, damping: 20 })
-  const rotateX = useTransform(springTiltY, [-0.5, 0.5], ['15deg', '-15deg'])
-  const rotateY = useTransform(springTiltX, [-0.5, 0.5], ['-15deg', '15deg'])
-
-  const onMouseMove = (e) => {
-    const el = e.currentTarget
-    const rect = el.getBoundingClientRect()
-    const cx = (e.clientX - rect.left) / rect.width - 0.5
-    const cy = (e.clientY - rect.top) / rect.height - 0.5
-    tiltX.set(cx)
-    tiltY.set(cy)
-  }
-
-  const onMouseLeave = () => {
-    tiltX.set(0)
-    tiltY.set(0)
-  }
-
-  return (
-    <MotionBox
-      className="cert-mini-card"
-      variants={itemVariants}
-      style={{
-        rotateX,
-        rotateY,
-        transformPerspective: 600,
-        transformStyle: 'preserve-3d',
-      }}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      onClick={() => onSelect(cert)}
-      whileHover={{
-        scale: 1.08,
-        borderColor: 'var(--color-muted-green)',
-        boxShadow: '0 0 20px rgba(98, 122, 92, 0.5), 0 0 40px rgba(98, 122, 92, 0.2)',
-      }}
-      transition={{ duration: 0.2 }}
-      title="Click to view certificate"
-    >
-      {/* Full Background Banner & Certificate Image */}
-      <Box className="cert-card-banner">
-        <Image src={cert.image} alt={cert.title} />
-        <Box className="cert-card-gradient" />
-        <Box as="span" className="cert-cat-badge">{cert.issuer}</Box>
-      </Box>
-
-      {/* Overlaid Title & Metadata Tags */}
-      <Box className="cert-card-overlay">
-        <Heading as="h4">{cert.title}</Heading>
-        <Box className="cert-meta-tags">
-          <Box as="span" className="cert-badge-sm">{cert.date}</Box>
-          <Box as="span" className="cert-badge-sm">{cert.issuer}</Box>
-        </Box>
-      </Box>
-    </MotionBox>
-  )
-}
 
 const CertificatesSection = () => {
-  const [selectedCert, setSelectedCert] = useState(null)
+  const [activeCategory, setActiveCategory] = useState('all')
+  const [selectedCertIndex, setSelectedCertIndex] = useState(null)
+
+  const filteredCertificates = certificates.filter((cert) => {
+    if (activeCategory === 'all') return true
+    return cert.category === activeCategory
+  })
+
+  const selectedCert = selectedCertIndex !== null ? certificates[selectedCertIndex] : null
+
+  const handleNextCert = useCallback(() => {
+    if (selectedCertIndex === null) return
+    setSelectedCertIndex((prev) => (prev + 1) % certificates.length)
+  }, [selectedCertIndex])
+
+  const handlePrevCert = useCallback(() => {
+    if (selectedCertIndex === null) return
+    setSelectedCertIndex((prev) => (prev - 1 + certificates.length) % certificates.length)
+  }, [selectedCertIndex])
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedCertIndex === null) return
+      if (e.key === 'Escape') setSelectedCertIndex(null)
+      if (e.key === 'ArrowRight') handleNextCert()
+      if (e.key === 'ArrowLeft') handlePrevCert()
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedCertIndex, handleNextCert, handlePrevCert])
 
   return (
-    <Box as="section" id="certificates" className="certificates section-zebra-dark">
+    <Box as="section" id="certificates" className="certificates">
       <Box className="container">
-        <MotionBox
-          className="section-content"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <MotionHeading as="h2" variants={itemVariants}>Certificates</MotionHeading>
-          <MotionBox className="certificates-grid" variants={itemVariants}>
-            {certificates.map((cert) => (
-              <TiltCertCard key={cert.title} cert={cert} onSelect={setSelectedCert} />
-            ))}
+        <Box className="section-content">
+          {/* Section Header */}
+          <MotionHeading
+            as="h2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Certificates & Accreditations
+          </MotionHeading>
+          <Text className="certificates-subheading">
+            Officially authenticated credentials in IT, software engineering, databases, and professional workplace standards.
+          </Text>
+
+          {/* Metrics & Credentials Summary Bar */}
+          <MotionBox
+            className="vault-stats-bar"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <Box className="vault-stat-item">
+              <Box className="vault-stat-icon-box">
+                <FaCertificate />
+              </Box>
+              <Box>
+                <Box className="vault-stat-num">9 Credentials</Box>
+                <Box className="vault-stat-label">Archived & Verified</Box>
+              </Box>
+            </Box>
+
+            <Box className="vault-stat-item">
+              <Box className="vault-stat-icon-box">
+                <FaShieldAlt />
+              </Box>
+              <Box>
+                <Box className="vault-stat-num">3 Certiport</Box>
+                <Box className="vault-stat-label">IT Specialist Certified</Box>
+              </Box>
+            </Box>
+
+            <Box className="vault-stat-item">
+              <Box className="vault-stat-icon-box">
+                <FaAward />
+              </Box>
+              <Box>
+                <Box className="vault-stat-num">2 Dev Tracks</Box>
+                <Box className="vault-stat-label">Git & JavaScript</Box>
+              </Box>
+            </Box>
+
+            <Box className="vault-stat-item">
+              <Box className="vault-stat-icon-box">
+                <FaCheckCircle style={{ color: '#72e06a' }} />
+              </Box>
+              <Box>
+                <Box className="vault-stat-num" style={{ color: '#72e06a' }}>100% Authentic</Box>
+                <Box className="vault-stat-label">Pearson VUE & Seminars</Box>
+              </Box>
+            </Box>
           </MotionBox>
-        </MotionBox>
+
+          {/* Category Filter Pills */}
+          <Box className="vault-filter-container">
+            {filterCategories.map((category) => {
+              const isActive = activeCategory === category.key
+
+              return (
+                <button
+                  key={category.key}
+                  onClick={() => setActiveCategory(category.key)}
+                  className={`vault-filter-btn ${isActive ? 'active' : ''}`}
+                >
+                  {isActive && (
+                    <motion.div
+                      className="vault-filter-active-bg"
+                      layoutId="vaultActiveFilterPill"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <span className="vault-filter-label">{category.label}</span>
+                  <span className="vault-filter-badge">{category.count}</span>
+                </button>
+              )
+            })}
+          </Box>
+
+          {/* Credentials Vault Grid */}
+          <MotionBox
+            className="vault-credentials-grid"
+            layout
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredCertificates.map((cert) => {
+                const certGlobalIndex = certificates.findIndex((c) => c.id === cert.id)
+
+                return (
+                  <MotionBox
+                    key={cert.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className="cert-vault-card"
+                    onClick={() => setSelectedCertIndex(certGlobalIndex)}
+                  >
+                    {/* Museum Matting Frame with Uncropped Certificate */}
+                    <Box className="cert-doc-frame">
+                      {/* Floating Issuer Badge */}
+                      <Box className="cert-issuer-badge">
+                        {cert.issuer}
+                      </Box>
+
+                      {/* Verified Status Pill */}
+                      <Box className="cert-verified-pill">
+                        <span className="cert-verified-dot" />
+                        <span>VERIFIED</span>
+                      </Box>
+
+                      {/* Matting Container */}
+                      <Box className="cert-doc-matting">
+                        <Image
+                          src={cert.image}
+                          alt={cert.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="cert-doc-img"
+                        />
+                      </Box>
+
+                      {/* Hover Overlay with Inspect Chip */}
+                      <Box className="cert-hover-overlay">
+                        <span className="cert-inspect-chip">
+                          <FaSearchPlus /> Quick Inspect
+                        </span>
+                      </Box>
+                    </Box>
+
+                    {/* Card Content Information (Neat, Uncovered Typography) */}
+                    <Box className="cert-card-body">
+                      <Box className="cert-meta-row">
+                        <span className="cert-date-text">{cert.date}</span>
+                        <span className="cert-id-tag">{cert.credentialId}</span>
+                      </Box>
+
+                      <Heading as="h4" className="cert-card-title">
+                        {cert.title}
+                      </Heading>
+
+                      <Text className="cert-card-desc">
+                        {cert.description}
+                      </Text>
+
+                      {/* Skills Covered */}
+                      <Box className="cert-skill-chips">
+                        {cert.skills.map((skill) => (
+                          <span key={skill} className="cert-skill-chip">
+                            {skill}
+                          </span>
+                        ))}
+                      </Box>
+
+                      {/* Card Action Link */}
+                      <Box className="cert-card-action">
+                        <span>Click to view certificate</span>
+                        <FaSearchPlus style={{ fontSize: '0.85rem' }} />
+                      </Box>
+                    </Box>
+                  </MotionBox>
+                )
+              })}
+            </AnimatePresence>
+          </MotionBox>
+        </Box>
       </Box>
 
-      {/* Modal */}
+      {/* Interactive Lightbox Full-Screen Modal */}
       <AnimatePresence>
         {selectedCert && (
           <MotionBox
-            className="cert-modal-overlay"
+            className="vault-modal-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedCert(null)}
+            onClick={() => setSelectedCertIndex(null)}
           >
             <MotionBox
-              className="cert-modal"
-              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              className="vault-modal-container"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 20 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.28, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src={selectedCert.image}
-                alt={selectedCert.title}
-                className="cert-modal-img"
-              />
-              <Box className="cert-modal-info">
-                <Box as="span" className="cert-modal-issuer">
-                  {selectedCert.issuer} · {selectedCert.date}
+              {/* Modal Header */}
+              <Box className="vault-modal-header">
+                <Box className="vault-modal-header-left">
+                  <FaShieldAlt className="vault-modal-shield" />
+                  <span className="vault-modal-heading-text">
+                    VERIFIED CREDENTIAL ARCHIVE
+                  </span>
                 </Box>
-                <Heading as="h3" className="cert-modal-title">{selectedCert.title}</Heading>
-                <MotionText className="cert-modal-desc">{selectedCert.description}</MotionText>
+
+                <Box className="vault-modal-header-right">
+                  <span className="vault-modal-counter">
+                    {selectedCertIndex + 1} of {certificates.length}
+                  </span>
+                  <button
+                    className="vault-modal-close-btn"
+                    onClick={() => setSelectedCertIndex(null)}
+                    aria-label="Close certificate inspector"
+                  >
+                    <FaTimes />
+                  </button>
+                </Box>
               </Box>
-              <Box
-                as="button"
-                className="cert-modal-close"
-                onClick={() => setSelectedCert(null)}
-              >
-                <FaTimes />
+
+              {/* Modal Stage (Uncropped Document Display with Nav Arrows) */}
+              <Box className="vault-modal-stage">
+                <button
+                  className="vault-nav-btn vault-nav-prev"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handlePrevCert()
+                  }}
+                  aria-label="Previous certificate"
+                >
+                  <FaChevronLeft />
+                </button>
+
+                <Box className="vault-modal-doc-wrapper">
+                  <Image
+                    src={selectedCert.image}
+                    alt={selectedCert.title}
+                    decoding="async"
+                    className="vault-modal-doc-img"
+                  />
+                </Box>
+
+                <button
+                  className="vault-nav-btn vault-nav-next"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleNextCert()
+                  }}
+                  aria-label="Next certificate"
+                >
+                  <FaChevronRight />
+                </button>
+              </Box>
+
+              {/* Modal Bottom Drawer */}
+              <Box className="vault-modal-info">
+                <Box className="vault-modal-title-row">
+                  <Heading as="h3" className="vault-modal-title">
+                    {selectedCert.title}
+                  </Heading>
+                  <span className="vault-modal-meta">
+                    {selectedCert.issuer} · {selectedCert.date} · {selectedCert.credentialId}
+                  </span>
+                </Box>
+
+                <Text className="vault-modal-desc">
+                  {selectedCert.description}
+                </Text>
+
+                <Box className="vault-modal-footer">
+                  <Box className="vault-modal-skills">
+                    {selectedCert.skills.map((skill) => (
+                      <span key={skill} className="cert-skill-chip">
+                        {skill}
+                      </span>
+                    ))}
+                  </Box>
+                  <span>Tip: Use ← → keys to navigate, Esc to close</span>
+                </Box>
               </Box>
             </MotionBox>
           </MotionBox>

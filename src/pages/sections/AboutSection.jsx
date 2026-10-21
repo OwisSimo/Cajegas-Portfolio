@@ -102,7 +102,8 @@ const AboutSection = () => {
                     src={photo}
                     alt="John Laurence Cajegas"
                     className="about-grad-img"
-                    loading="eager"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </div>
               ))}
