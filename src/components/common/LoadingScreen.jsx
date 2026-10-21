@@ -77,7 +77,7 @@ const LoadingScreen = ({ onComplete }) => {
 
         {/* Motto Text below the monogram box */}
         <div className="loader-motto">
-          i believe in magic
+        
         </div>
       </motion.div>
 

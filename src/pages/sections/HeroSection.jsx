@@ -201,7 +201,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <VStack align="center" textAlign="center" gap={{ base: 4, md: 6 }} maxW="850px" mx="auto">
-            
+
             {/* Available for Work Status Badge */}
             <MotionBadge
               className="hero-badge"
@@ -219,10 +219,9 @@ const HeroSection = () => {
             >
               <Circle size="8px" bg="var(--color-muted-green)" className="badge-dot" />
               <HStack gap={1.5}>
-                <FaStar style={{ fontSize: '0.75rem', color: 'var(--color-muted-green)' }} />
                 <Text as="span" fontSize="sm" fontWeight="600" color="whiteAlpha.900">
-                  Available for work
-                </Text>
+                Available for work
+              </Text>
               </HStack>
             </MotionBadge>
 
